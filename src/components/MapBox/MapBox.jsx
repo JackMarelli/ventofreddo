@@ -1,6 +1,7 @@
 // src/components/Map.js
 import React, { useState, useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 
 // Load Mapbox access token from environment variable
@@ -9,76 +10,101 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 const MapBox = ({className}) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
+  const markerDivRef = useRef(null);
   const markerRef = useRef(null);
 
   const [coordinates, setCoordinates] = useState([
-    [-74.0060, 40.7128], // Starting point (NYC)
-    [-74.0030, 40.7140],
-    [-74.0010, 40.7160],
-    [-73.9980, 40.7180],
-    [-73.9950, 40.7200],
+    [9.1919, 45.4641 ], 
+    [9.1919, 45.4649 ],
+    [9.1919, 45.4661 ],
+    [9.1919, 45.46665 ],
+    [9.1919, 45.4669 ],
   ]);
   
   const [pointIndex, setPointIndex] = useState(0); // To track the current position in the array
   const [dotStyle, setDotStyle] = useState({
     width: '20px',
     height: '20px',
-    backgroundColor: 'red',
+    backgroundColor: 'white',
     borderRadius: '50%',
+
+    transition: 'transform 1s linear', // Transition for smooth scaling
   });
 
-  // Initialize the map on first render
+
   useEffect(() => {
     if (!map.current) {
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/streets-v11', // Map style
-        center: [-74.0060, 40.7128], // Initial map center
-        zoom: 12, // Initial zoom level
+        style: 'mapbox://styles/jackmarelli/cm2da6wzv006201ph66aqamf0',  
+        zoom: 15, 
+        center: [9.1919, 45.4641 ],
+        minZoom: 9, 
+        maxZoom: 16
+      });
+      map.current.dragRotate.disable();
+      map.current.touchPitch.disable();
+
+      map.current.on('move', () => {
+        
+        markerDivRef.current.style.transition = " transform 0s ease ";
+      });
+
+      map.current.on('moveend', () => {
+  
+        markerDivRef.current.style.transition = dotStyle.transition;
       });
 
       // Add a marker to the map
       markerRef.current = new mapboxgl.Marker({
-        element: createMarkerElement(), // Create a custom element for the marker
+        element: markerDivRef.current, 
       })
-        .setLngLat(coordinates[0]) // Start marker at the first coordinate
+        .setLngLat(coordinates[0]) 
         .addTo(map.current);
     }
 
-    // Move the point along the coordinates every 2 seconds
     const interval = setInterval(() => {
       setPointIndex((prevIndex) => (prevIndex + 1) % coordinates.length);
-    }, 2000);
+    }, 1000);
 
-    return () => clearInterval(interval); // Cleanup interval on component unmount
+    return () => clearInterval(interval); 
   }, []);
 
-  // Update marker position and style when the pointIndex changes
   useEffect(() => {
     if (markerRef.current) {
-      // Update the marker's position
       markerRef.current.setLngLat(coordinates[pointIndex]);
 
-      // Dynamically change dot style (color and size)
       setDotStyle((prevStyle) => ({
         ...prevStyle,
-        backgroundColor: pointIndex % 2 === 0 ? 'blue' : 'red',
-        width: pointIndex % 2 === 0 ? '15px' : '20px',
+       
       }));
+      
+      if (markerDivRef.current) {
+        markerDivRef.current.style.width = dotStyle.width;
+        markerDivRef.current.style.height = dotStyle.height;
+        markerDivRef.current.style.transition = dotStyle.transition;
+      }
     }
-  }, [pointIndex]);
+  }, [pointIndex, dotStyle]);
 
-  // Create a custom HTML element for the marker (dot)
-  const createMarkerElement = () => {
-    const markerDiv = document.createElement('div');
-    markerDiv.style.width = dotStyle.width;
-    markerDiv.style.height = dotStyle.height;
-    markerDiv.style.backgroundColor = dotStyle.backgroundColor;
-    markerDiv.style.borderRadius = '50%';
-    return markerDiv;
-  };
+  
 
-  return <div ref={mapContainer} className="border border-red-700" />;
+
+
+  return (
+    <div ref={mapContainer} className={className}>
+      <div
+        ref={markerDivRef} 
+        style={{
+          width: dotStyle.width,
+          height: dotStyle.height,
+          backgroundColor: dotStyle.backgroundColor,
+          borderRadius: dotStyle.borderRadius,
+          transition: dotStyle.transition,
+        }}
+      />
+    </div>
+  );
 };
 
 export default MapBox;
