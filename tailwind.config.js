@@ -8,18 +8,19 @@ module.exports = {
     },
     extend: {
       colors: {
-        light: {
+        bg: {
+          DEFAULT: "#1e1e1e",
+        },
+        primary: {
           DEFAULT: "#ffffff",
         },
-        gray: {
-          DEFAULT: "#777777",
-          "333": "333333",
-        },
-        dark: {
-          DEFAULT: "#000000",
+        secondary: {
+          DEFAULT: "#5c5c5c",
         },
         accent: {
-          DEFAULT: "#ff2ce3",
+          DEFAULT: "#ffffff",
+          success: "#74E262",
+          error: "#F92929"
         },
       },
     },
