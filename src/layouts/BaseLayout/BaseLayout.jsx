@@ -1,4 +1,7 @@
-export default function BaseLayout() {
-    return <></>;
-  }
-  
+export default function BaseLayout(children) {
+  return (
+    <div className="w-full h-fit">
+      {children}
+    </div>
+  );
+}
