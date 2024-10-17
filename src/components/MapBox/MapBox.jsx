@@ -1,12 +1,12 @@
 // src/components/Map.js
 import React, { useState, useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
-import './Map.css';
+
 
 // Load Mapbox access token from environment variable
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
-const MovingPointMap = () => {
+const MapBox = ({className}) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const markerRef = useRef(null);
@@ -78,7 +78,7 @@ const MovingPointMap = () => {
     return markerDiv;
   };
 
-  return <div ref={mapContainer} className="w-full " />;
+  return <div ref={mapContainer} className="border border-red-700" />;
 };
 
-export default MovingPointMap;
+export default MapBox;

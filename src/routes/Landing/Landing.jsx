@@ -1,6 +1,5 @@
 
 import React from 'react';
-import Map from '../../components/Map/Map';
 
 const Landing = () => {
   return (
@@ -8,7 +7,7 @@ const Landing = () => {
       <header className="landing-header">
         <h1>Welcome to Vento Freddo</h1>
       </header>
-      <Map />
+
     </div>
   );
 };
