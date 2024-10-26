@@ -1,39 +1,135 @@
+import { useEffect, useRef } from "react";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
 import Attempt from "../../components/Attempt/Attempt";
+import TextScramble from "../../components/TextScramble/TextScramble";
 import BaseLayout from "../../layouts/BaseLayout/BaseLayout";
 import GridLayout from "../../layouts/GridLayout/GridLayout";
 import "./Input.css";
 
 export default function Input() {
+  // Example image data; this will be replaced by actual API data.
+  const canvasImages = [
+    { pos: 1, url: "assets/images/splittedqr/1.png" },
+    { pos: 6, url: "assets/images/splittedqr/6.png" },
+    { pos: 8, url: "assets/images/splittedqr/8.png" },
+  ];
+
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+
+    if (window.innerWidth >= 768) {
+      console.log("desktop viewport size", window.innerWidth);
+      canvas.width = window.innerWidth / 2 - 32 * 3;
+      canvas.height = window.innerWidth / 2 - 32 * 3;
+    } else {
+      console.log("desktop viewport size");
+      canvas.width = window.innerWidth - 16 * 2;
+      canvas.height = window.innerWidth - 16 * 2;
+    }
+
+    // Image positions (3x3 grid layout positions mapped to x, y coordinates)
+    const positions = [
+      { x: 0, y: 0 },
+      { x: canvas.width / 3, y: 0 },
+      { x: (canvas.width / 3) * 2, y: 0 },
+      { x: 0, y: canvas.width / 3 },
+      { x: canvas.width / 3, y: canvas.width / 3 },
+      { x: (canvas.width / 3) * 2, y: canvas.width / 3 },
+      { x: 0, y: (canvas.width / 3) * 2 },
+      { x: canvas.width / 3, y: (canvas.width / 3) * 2 },
+      { x: (canvas.width / 3) * 2, y: (canvas.width / 3) * 2 },
+    ];
+
+    // Clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Load and draw each image based on its position
+    canvasImages.forEach((image) => {
+      const img = new Image();
+      img.src = image.url;
+      img.onload = () => {
+        const { x, y } = positions[image.pos - 1];
+        ctx.drawImage(img, x, y, canvas.width / 3, canvas.width / 3);
+      };
+    });
+  }, [canvasImages]);
+
   return (
     <BaseLayout>
       <GridLayout>
+        
         <SectionHeader content="Input" />
-        <div class="col-span-full w-full relative mb-8">
+        <div className="col-span-full md:col-span-6 w-full relative mb-8">
           <input
-            class="my-crop bg-bg w-full h-[58px] absolute top-1/2 left-1/2 -translate-x-[49.9%] sm:-translate-x-[49.92%] -translate-y-1/2 z-20 text-3xl px-4"
+            className="my-crop bg-bg w-full h-[58px] absolute top-1/2 left-1/2 -translate-x-[49.9%] sm:-translate-x-[49.92%] -translate-y-1/2 z-20 text-3xl px-4"
             type="number"
           />
           <div className="my-crop bg-white w-[calc(100%+1px)] sm:w-[calc(100%+2px)] h-[59px] z-10"></div>
         </div>
         <SectionHeader content="Attempts" />
-        <Attempt count="0139" code="2934159" color="text-accent-success" />
-        <Attempt count="0672" code="9203475" color="text-accent-success" />
-        <Attempt count="0456" code="1279832" color="text-accent-success" />
-        <Attempt count="0987" code="3748293" color="text-accent-success" />
-        <Attempt count="0321" code="5647382" color="text-accent-success" />
-        <Attempt />
-        <Attempt />
-        <Attempt />
-        <Attempt />
-        <Attempt />
-        <Attempt />
-        <Attempt />
-        <Attempt />
-        <Attempt />
-        <Attempt />
-        <div className="my-8"></div>
+        <div className="col-span-4 md:col-span-2">
+          <Attempt count="0139" code="2934159" color="text-accent-success" />
+          <Attempt count="0672" code="9203475" color="text-accent-success" />
+          <Attempt count="0456" code="1279832" color="text-accent-success" />
+          <Attempt count="0987" code="3748293" color="text-accent-success" />
+          <Attempt />
+        </div>
+        <div className="col-span-4 md:col-span-2">
+          <Attempt />
+          <Attempt />
+          <Attempt />
+          <Attempt />
+          <Attempt />
+        </div>
+        <div className="col-span-4 md:col-span-2">
+          <Attempt />
+          <Attempt />
+          <Attempt />
+          <Attempt />
+          <Attempt />
+        </div>
+        <div className="mt-8"></div>
+        <SectionHeader content="Code" />
+
+        {/* Canvas for rendering images */}
+        <div className="col-span-full md:col-span-6">
+          <canvas ref={canvasRef}></canvas>
+        </div>
+
         <SectionHeader content="Quote" />
+        <div className="col-span-full md:col-span-6 text-lg h-fit">
+          <TextScramble>
+            Ho trovato una fotocopia di un giornale vecchissimo del 1862, l’anno
+            in cui hanno impiccato il temuto serial killer Antonio Boggia. Come
+            ci è finita lì? Strano, no?
+          </TextScramble>
+          <div className="mb-4"></div>
+
+          <TextScramble>
+            Inizio a leggere un articolo e mi viene in mente di avere già
+            sentito questo nome: forse nelle vecchie storie di nonno? Torno
+            subito a casa e inizio a cercare nella scatola che mi mostrava da
+            piccolo...
+          </TextScramble>
+          <div className="mb-4"></div>
+
+          <TextScramble>
+            Inizio a leggere un articolo e mi viene in mente di avere già
+            sentito questo nome: forse nelle vecchie storie di nonno? Torno
+            subito a casa e inizio a cercare nella scatola che mi mostrava da
+            piccolo... Finalmente la trovo. Sblocco la chiusura rivelando un
+            vecchio album di famiglia, oggetti arruginiti e uno scrigno chiuso
+            da un lucchetto. Guardando le foto mi tolgo ogni dubbio: era parte
+            della mia famiglia!
+          </TextScramble>
+          <div className="mb-4"></div>
+
+          <TextScramble>Ora voglio aprire questo scrigno.</TextScramble>
+          <div className="mb-4"></div>
+        </div>
       </GridLayout>
     </BaseLayout>
   );

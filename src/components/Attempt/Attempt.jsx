@@ -4,7 +4,7 @@ export default function Attempt({
   color = "text-primary",
 }) {
   return (
-    <div className="col-span-4 text-lg">
+    <div className="block text-lg">
       <span className="text-secondary me-2">{count}</span>
       <span className={`${color}`}>{code}</span>
     </div>
