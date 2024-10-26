@@ -1,10 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ], theme: {
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    screens: {
+      xs: "340px",
+    },
     fontFamily: {
-      sans: ['Roboto Mono'],
+      sans: ["Roboto Mono"],
     },
     extend: {
       colors: {
@@ -20,11 +22,10 @@ module.exports = {
         accent: {
           DEFAULT: "#ffffff",
           success: "#74E262",
-          error: "#F92929"
+          error: "#F92929",
         },
       },
     },
   },
   plugins: [],
-}
-
+};

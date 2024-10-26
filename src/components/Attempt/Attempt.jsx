@@ -4,9 +4,11 @@ export default function Attempt({
   color = "text-primary",
 }) {
   return (
-    <div className="block text-lg">
-      <span className="text-secondary me-2">{count}</span>
-      <span className={`${color}`}>{code}</span>
+    <div className="block  tracking">
+      <span className="hidden xs:inline text-secondary me-2 text-sm md:text-md">
+        {count}
+      </span>
+      <span className={`${color} text-sm md:text-md`}>{code}</span>
     </div>
   );
 }
