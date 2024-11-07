@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-
 // Load Mapbox access token from environment variable
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
@@ -22,18 +21,14 @@ const MapBox = ({ className }) => {
     [9.194, 45.4679],
   ]);
 
-  
-
   const [pointIndex, setPointIndex] = useState(0); // To track the current position in the array
   const [dotStyle, setDotStyle] = useState({
     width: '20px',
     height: '20px',
     backgroundColor: 'white',
     borderRadius: '50%',
-
     transition: 'transform 1s linear', // Transition for smooth scaling
   });
-
 
   useEffect(() => {
     if (!map.current) {
@@ -43,22 +38,31 @@ const MapBox = ({ className }) => {
         zoom: 15,
         center: [9.1919, 45.4641],
         minZoom: 9,
-        maxZoom: 16
+        maxZoom: 16,
+        attributionControl: false,
       });
       map.current.dragRotate.disable();
       map.current.touchPitch.disable();
 
-      // map.current.on('move', () => {
-
-      //   markerDivRef.current.style.transition = " transform 0s ease ";
-      // });
-
-      // map.current.on('moveend', () => {
-
-      //   markerDivRef.current.style.transition = dotStyle.transition;
-      // });
-
+      // Define the original path (LineString)
       const geojson = {
+        'type': 'FeatureCollection',
+        'features': [
+          {
+            'type': 'Feature',
+            'properties': {},
+            'geometry': {
+              'coordinates': [
+                [-9.090313, 45.472476],  // Start of the horizontal line (Milan center)
+                [100.090313, 45.472476],  // End of the horizontal line (Milan center)
+              ],
+              'type': 'LineString',
+            },
+          },
+        ],
+      };
+
+      const geojsonUser = {
         'type': 'FeatureCollection',
         'features': [
           {
@@ -72,33 +76,45 @@ const MapBox = ({ className }) => {
                 [9.194, 45.4661],
                 [9.194, 45.4671],
                 [9.194, 45.4679],
-
               ],
-              'type': 'LineString'
-            }
+              'type': 'LineString',
+            },
           }
-        ]
+        ],
       };
 
       map.current.on('load', () => {
         map.current.addSource('line', {
           type: 'geojson',
-          data: geojson
+          data: geojson,
+        });
+        map.current.addSource('lineUser', {
+          type: 'geojson',
+          data: geojsonUser,
         });
 
         map.current.addLayer({
           type: 'line',
-          source: 'line',
+          source: 'lineUser',
           id: 'line-dashed',
           paint: {
             'line-color': 'yellow',
             'line-width': 9,
-            'line-dasharray': [0, 4, 3]
-          }
+            'line-dasharray': [0, 4, 3],
+          },
         });
 
-        // technique based on https://jsfiddle.net/2mws8y3q/
-        // an array of valid line-dasharray values, specifying the lengths of the alternating dashes and gaps that form the dash pattern
+        // Add horizontal line layer
+        map.current.addLayer({
+          type: 'line',
+          source: 'line',
+          id: 'horizontal-line',
+          paint: {
+            'line-color': 'white',  // Choose color for the horizontal line
+            'line-width': 4,
+          },
+        });
+
         const dashArraySequence = [
           [0, 4, 3],
           [0.5, 4, 2.5],
@@ -113,14 +129,12 @@ const MapBox = ({ className }) => {
           [0, 2, 3, 2],
           [0, 2.5, 3, 1.5],
           [0, 3, 3, 1],
-          [0, 3.5, 3, 0.5]
+          [0, 3.5, 3, 0.5],
         ];
 
         let step = 0;
 
         function animateDashArray(timestamp) {
-          // Update line-dasharray using the next value in dashArraySequence. The
-          // divisor in the expression `timestamp / 50` controls the animation speed.
           const newStep = parseInt(
             (timestamp / 50) % dashArraySequence.length
           );
@@ -134,11 +148,9 @@ const MapBox = ({ className }) => {
             step = newStep;
           }
 
-          // Request the next frame of the animation.
           requestAnimationFrame(animateDashArray);
         }
 
-        // start the animation
         animateDashArray(0);
       });
 
@@ -159,19 +171,11 @@ const MapBox = ({ className }) => {
   useEffect(() => {
     if (markerRef.current) {
       markerRef.current.setLngLat(coordinates[pointIndex]);
-
       setDotStyle((prevStyle) => ({
         ...prevStyle,
-
       }));
-
-
     }
   }, [pointIndex, dotStyle]);
-
-
-
-
 
   return (
     <div ref={mapContainer} className={className}>
@@ -182,7 +186,6 @@ const MapBox = ({ className }) => {
           height: dotStyle.height,
           backgroundColor: dotStyle.backgroundColor,
           borderRadius: dotStyle.borderRadius,
-          // transition: dotStyle.transition,
         }}
       />
     </div>

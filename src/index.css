@@ -10,6 +10,10 @@ html, body {
   display: none;
 }
 
+.mapboxgl-ctrl-logo {
+  display: none !important;
+}
+
 @layer base {
   @font-face {
     font-family: "Roboto Mono";
