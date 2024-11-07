@@ -5,6 +5,8 @@ import TextScramble from "../../components/TextScramble/TextScramble";
 import BaseLayout from "../../layouts/BaseLayout/BaseLayout";
 import GridLayout from "../../layouts/GridLayout/GridLayout";
 import "./Input.css";
+import ApiManager from "../../api/ApiManager/ApiManager";
+import { log } from "three/webgpu";
 
 export default function Input() {
   // Example image data; this will be replaced by actual API data.
@@ -14,15 +16,36 @@ export default function Input() {
     { pos: 8, url: "assets/images/splittedqr/8.png" },
   ];
 
+  useEffect(() => {
+    api
+      .get(`get-photos`)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   const canvasRef = useRef(null);
   const inputRef = useRef(null);
+  const api = new ApiManager();
 
   const handleInputChange = (e) => {
     let valueString = e.target.value.toString();
     let len = valueString.length;
 
-    if (len > 7) {
+    if (len >= 7) {
       e.target.value = valueString.slice(0, 7);
+
+      api
+        .get("check-code")
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
   };
 
@@ -71,7 +94,7 @@ export default function Input() {
     <BaseLayout>
       {window.innerWidth < 768 ? (
         <GridLayout>
-          <SectionHeader content="Input" />
+          <SectionHeader content="Scrivi" />
           <div className="col-span-full md:col-span-6 w-full relative mb-8">
             <input
               className="my-crop bg-bg w-full h-[58px] absolute top-1/2 left-1/2 -translate-x-[49.9%] sm:-translate-x-[49.92%] -translate-y-1/2 z-20 text-3xl px-4"
@@ -80,7 +103,7 @@ export default function Input() {
             />
             <div className="my-crop bg-white w-[calc(100%+1px)] sm:w-[calc(100%+2px)] h-[59px] z-10"></div>
           </div>
-          <SectionHeader content="Attempts" />
+          <SectionHeader content="Tentativi" />
           <div className="col-span-4 md:col-span-2 flex flex-col items-start">
             <Attempt count="0139" code="2934159" color="text-accent-success" />
             <Attempt count="0672" code="9203475" color="text-accent-success" />

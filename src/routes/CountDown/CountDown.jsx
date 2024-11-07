@@ -8,18 +8,18 @@ const CountDown = ({ quote }) => {
   return (
     <BaseLayout>
       <GridLayout>
-        <SectionHeader content="Prepare" />
+        <SectionHeader content="Preparati" />
         <div className="col-span-full text-6xl h-fit mb-8">23:15:04</div>
-        <SectionHeader content="Quote" />
-        <div className="col-span-full text-lg h-fit">
+        <SectionHeader content="Nota" />
+        <div className="col-span-12 md:col-span-6 md:col-start-1 text-lg h-fit">
           <TextScramble>{quote}</TextScramble>
         </div>
       </GridLayout>
       <div className="w-fit h-fit absolute bottom-8 left-4 text-sm text-secondary uppercase">
-        / NO POLICY .
+        / Niente sarà più come prima .
       </div>
       <div className="w-fit h-fit absolute bottom-8 right-4 text-sm text-secondary uppercase text-end">
-        / STAY SAFE .
+        / Diario .
       </div>
     </BaseLayout>
   );
