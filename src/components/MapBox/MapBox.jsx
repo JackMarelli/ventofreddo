@@ -43,7 +43,9 @@ const MapBox = ({ className }) => {
         zoom: 15,
         center: [9.1919, 45.4641],
         minZoom: 9,
-        maxZoom: 16
+        maxZoom: 16,
+        attributionControl: false,
+        
       });
       map.current.dragRotate.disable();
       map.current.touchPitch.disable();
