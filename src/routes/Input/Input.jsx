@@ -15,6 +15,16 @@ export default function Input() {
   ];
 
   const canvasRef = useRef(null);
+  const inputRef = useRef(null);
+
+  const handleInputChange = (e) => {
+    let valueString = e.target.value.toString();
+    let len = valueString.length;
+
+    if (len > 7) {
+      e.target.value = valueString.slice(0, 7);
+    }
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -66,6 +76,7 @@ export default function Input() {
             <input
               className="my-crop bg-bg w-full h-[58px] absolute top-1/2 left-1/2 -translate-x-[49.9%] sm:-translate-x-[49.92%] -translate-y-1/2 z-20 text-3xl px-4"
               type="number"
+              onChange={(e) => handleInputChange(e)}
             />
             <div className="my-crop bg-white w-[calc(100%+1px)] sm:w-[calc(100%+2px)] h-[59px] z-10"></div>
           </div>
@@ -168,6 +179,7 @@ export default function Input() {
               <input
                 className="my-crop bg-bg w-full h-[58px] absolute top-1/2 left-1/2 -translate-x-[49.9%] sm:-translate-x-[49.92%] -translate-y-1/2 z-20 text-3xl px-4"
                 type="number"
+                onChange={(e) => handleInputChange(e)}
               />
               <div className="my-crop bg-white w-[calc(100%+1px)] sm:w-[calc(100%+2px)] h-[59px] z-10"></div>
             </div>
@@ -214,7 +226,6 @@ export default function Input() {
             <div className="mt-8"></div>
             <SectionHeader content="Code" />
 
-            {/* Canvas for rendering images */}
             <div className="mb-8">
               <canvas ref={canvasRef}></canvas>
             </div>
