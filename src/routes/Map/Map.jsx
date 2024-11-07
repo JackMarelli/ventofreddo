@@ -6,8 +6,8 @@ import CityFog from '../../components/CityFog/CityFog';
 const Map = () => {
   return (
     <div className="">
-        {/* <MapBox className="fixed w-full h-screen" /> */}
-        <CityFog/>
+        <MapBox className="fixed w-full h-screen" /> 
+        {/* <CityFog/> */}
     </div>
   );
 };
