@@ -11,9 +11,9 @@ export default class ApiManager {
         this.axiosClient.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
         this.axiosClient.defaults.headers.common = {
-            // 'Content-Type': 'application/json',
+            'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Access-Control-Allow-Headers': '*',
+            //'Access-Control-Allow-Headers': '*',
         };
     }
 

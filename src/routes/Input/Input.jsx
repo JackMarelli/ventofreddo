@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
 import Attempt from "../../components/Attempt/Attempt";
 import TextScramble from "../../components/TextScramble/TextScramble";
@@ -9,18 +9,27 @@ import ApiManager from "../../api/ApiManager/ApiManager";
 import { log } from "three/webgpu";
 
 export default function Input() {
-  // Example image data; this will be replaced by actual API data.
-  const canvasImages = [
-    { pos: 1, url: "assets/images/splittedqr/1.png" },
-    { pos: 6, url: "assets/images/splittedqr/6.png" },
-    { pos: 8, url: "assets/images/splittedqr/8.png" },
-  ];
+  const [canvasImages, setCanvasIamges] = useState([]);
+  const [correctCodes, setCorrectCodes] = useState([]);
 
   useEffect(() => {
     api
-      .get(`get-photos`)
+      .get(`get-photos`, {})
       .then((response) => {
         console.log(response);
+        setCanvasIamges(response?.data?.photos);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    api
+      .get(`get-codes`, {})
+      .then((response) => {
+        console.log(response);
+        setCorrectCodes(response?.data?.codes);
       })
       .catch((error) => {
         console.error(error);
@@ -39,13 +48,20 @@ export default function Input() {
       e.target.value = valueString.slice(0, 7);
 
       api
-        .get("check-code")
+        .post("check-code", { code: valueString })
         .then((response) => {
-          console.log(response);
+          if (response.data?.messaggio) {
+          }
         })
         .catch((error) => {
           console.error(error);
         });
+
+      e.target.classList.add("text-red-500");
+      setTimeout(() => {
+        e.target.classList.remove("text-red-500");
+        e.target.value = "";
+      }, 500);
     }
   };
 
@@ -54,11 +70,9 @@ export default function Input() {
     const ctx = canvas.getContext("2d");
 
     if (window.innerWidth >= 768) {
-      console.log("desktop viewport size", window.innerWidth);
       canvas.width = window.innerWidth * 0.2;
       canvas.height = window.innerWidth * 0.2;
     } else {
-      console.log("mobile viewport size");
       canvas.width = window.innerWidth - 16 * 2;
       canvas.height = window.innerWidth - 16 * 2;
     }
@@ -84,7 +98,7 @@ export default function Input() {
       const img = new Image();
       img.src = image.url;
       img.onload = () => {
-        const { x, y } = positions[image.pos - 1];
+        const { x, y } = positions[image.position - 1];
         ctx.drawImage(img, x, y, canvas.width / 3, canvas.width / 3);
       };
     });
@@ -104,27 +118,62 @@ export default function Input() {
             <div className="my-crop bg-white w-[calc(100%+1px)] sm:w-[calc(100%+2px)] h-[59px] z-10"></div>
           </div>
           <SectionHeader content="Tentativi" />
-          <div className="col-span-4 md:col-span-2 flex flex-col items-start">
-            <Attempt count="0139" code="2934159" color="text-accent-success" />
-            <Attempt count="0672" code="9203475" color="text-accent-success" />
-            <Attempt count="0456" code="1279832" color="text-accent-success" />
-            <Attempt count="0987" code="3748293" color="text-accent-success" />
-            <Attempt />
+          <div className="flex justify-between">
+            {/* Column 1: Display correct codes */}
+            <div className="flex flex-col items-start">
+              {correctCodes.slice(0, 5).map((code, index) => (
+                <Attempt
+                  key={index}
+                  count={String(index).padStart(4, "0")}
+                  code={code}
+                  color="text-accent-success"
+                />
+              ))}
+              {/* Fill with placeholders if fewer than 5 codes */}
+              {Array.from({ length: 5 - correctCodes.slice(0, 5).length }).map(
+                (_, index) => (
+                  <Attempt key={`placeholder1-${index}`} />
+                )
+              )}
+            </div>
+
+            {/* Column 2: Display next set of correct codes */}
+            <div className="flex flex-col items-center">
+              {correctCodes.slice(5, 7).map((code, index) => (
+                <Attempt
+                  key={index + 5}
+                  count={String(index + 5).padStart(4, "0")}
+                  code={code}
+                  color="text-accent-success"
+                />
+              ))}
+              {/* Fill with placeholders if fewer than 2 codes */}
+              {Array.from({ length: 2 - correctCodes.slice(5, 7).length }).map(
+                (_, index) => (
+                  <Attempt key={`placeholder2-${index}`} />
+                )
+              )}
+            </div>
+
+            {/* Column 3: Display last set of correct codes */}
+            <div className="flex flex-col items-end">
+              {correctCodes.slice(7, 9).map((code, index) => (
+                <Attempt
+                  key={index + 7}
+                  count={String(index + 7).padStart(4, "0")}
+                  code={code}
+                  color="text-accent-success"
+                />
+              ))}
+              {/* Fill with placeholders if fewer than 2 codes */}
+              {Array.from({ length: 2 - correctCodes.slice(7, 9).length }).map(
+                (_, index) => (
+                  <Attempt key={`placeholder3-${index}`} />
+                )
+              )}
+            </div>
           </div>
-          <div className="col-span-4 md:col-span-2 flex flex-col items-center">
-            <Attempt />
-            <Attempt />
-            <Attempt />
-            <Attempt />
-            <Attempt />
-          </div>
-          <div className="col-span-4 md:col-span-2 flex flex-col items-end">
-            <Attempt />
-            <Attempt />
-            <Attempt />
-            <Attempt />
-            <Attempt />
-          </div>
+
           <div className="mt-8"></div>
           <SectionHeader content="Code" />
 
@@ -209,44 +258,61 @@ export default function Input() {
             </div>
             <SectionHeader content="Attempts" />
             <div className="flex justify-between">
+              {/* Column 1: Display correct codes */}
               <div className="flex flex-col items-start">
-                <Attempt
-                  count="0139"
-                  code="2934159"
-                  color="text-accent-success"
-                />
-                <Attempt
-                  count="0672"
-                  code="9203475"
-                  color="text-accent-success"
-                />
-                <Attempt
-                  count="0456"
-                  code="1279832"
-                  color="text-accent-success"
-                />
-                <Attempt
-                  count="0987"
-                  code="3748293"
-                  color="text-accent-success"
-                />
-                <Attempt />
+                {correctCodes.slice(0, 5).map((code, index) => (
+                  <Attempt
+                    key={index}
+                    count={String(index).padStart(4, "0")}
+                    code={code}
+                    color="text-accent-success"
+                  />
+                ))}
+                {/* Fill with placeholders if fewer than 5 codes */}
+                {Array.from({
+                  length: 5 - correctCodes.slice(0, 5).length,
+                }).map((_, index) => (
+                  <Attempt key={`placeholder1-${index}`} />
+                ))}
               </div>
+
+              {/* Column 2: Display next set of correct codes */}
               <div className="flex flex-col items-center">
-                <Attempt />
-                <Attempt />
-                <Attempt />
-                <Attempt />
-                <Attempt />
+                {correctCodes.slice(5, 7).map((code, index) => (
+                  <Attempt
+                    key={index + 5}
+                    count={String(index + 5).padStart(4, "0")}
+                    code={code}
+                    color="text-accent-success"
+                  />
+                ))}
+                {/* Fill with placeholders if fewer than 2 codes */}
+                {Array.from({
+                  length: 2 - correctCodes.slice(5, 7).length,
+                }).map((_, index) => (
+                  <Attempt key={`placeholder2-${index}`} />
+                ))}
               </div>
+
+              {/* Column 3: Display last set of correct codes */}
               <div className="flex flex-col items-end">
-                <Attempt />
-                <Attempt />
-                <Attempt />
-                <Attempt />
-                <Attempt />
+                {correctCodes.slice(7, 9).map((code, index) => (
+                  <Attempt
+                    key={index + 7}
+                    count={String(index + 7).padStart(4, "0")}
+                    code={code}
+                    color="text-accent-success"
+                  />
+                ))}
+                {/* Fill with placeholders if fewer than 2 codes */}
+                {Array.from({
+                  length: 2 - correctCodes.slice(7, 9).length,
+                }).map((_, index) => (
+                  <Attempt key={`placeholder3-${index}`} />
+                ))}
               </div>
             </div>
+
             <div className="mt-8"></div>
             <SectionHeader content="Code" />
 

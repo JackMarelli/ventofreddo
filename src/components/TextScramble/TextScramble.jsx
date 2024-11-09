@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./TextScramble.css"; // We will define our styles here
+import "./TextScramble.css";
 
 // Example SVG as a React component (you can import it from a separate file if needed)
 const RandomSVG = () => (
@@ -11,25 +11,26 @@ const RandomSVG = () => (
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M0.09375 16.5692L15.9507 0.71228L152.384 137.146L288.817 0.71228L304.674 16.5692L152.384 168.859L0.09375 16.5692Z"
       fill="#5c5c5c"
     />
     <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M96.9494 99.4432L15.9507 180.442L0.09375 164.585L81.0924 83.5863L96.9494 99.4432Z"
       fill="#5c5c5c"
     />
     <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M223.675 83.5865L304.674 164.585L288.817 180.442L207.818 99.4435L223.675 83.5865Z"
       fill="#5c5c5c"
     />
   </svg>
 );
+
 
 const TextScramble = ({ children }) => {
   const [characters, setCharacters] = useState([]);
