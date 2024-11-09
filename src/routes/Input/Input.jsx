@@ -198,6 +198,7 @@ export default function Input() {
             <div className="mb-4"></div>
           </div>
           <div className="col-span-6 flex flex-col">
+            <SectionHeader content="Scrivi" />
             <div className="w-full relative mb-8">
               <input
                 className="my-crop bg-bg w-full h-[58px] absolute top-1/2 left-1/2 -translate-x-[49.9%] sm:-translate-x-[49.92%] -translate-y-1/2 z-20 text-3xl px-4"
