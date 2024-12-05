@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from 'react';
+import { AsciiEffect } from 'three/addons/effects/AsciiEffect.js';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const CityFog = () => {
   const mountRef = useRef(null);
+  let effect;
 
   useEffect(() => {
     // Set up camera, scene, and renderer
@@ -57,6 +59,11 @@ const CityFog = () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setClearColor(0xf0f5f5);
+
+    effect = new AsciiEffect( renderer, ' .:-+*=%@#', { invert: true } );
+    effect.setSize( window.innerWidth, window.innerHeight );
+   
+
 
     // Append renderer to component
     mountRef.current.appendChild(renderer.domElement);
