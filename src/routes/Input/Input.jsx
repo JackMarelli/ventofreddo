@@ -118,7 +118,7 @@ export default function Input() {
             <div className="my-crop bg-white w-[calc(100%+1px)] sm:w-[calc(100%+2px)] h-[59px] z-10"></div>
           </div>
           <SectionHeader content="Tentativi" />
-          <div className="flex justify-between">
+          <div className="col-span-full col-span-md-6 flex justify-between">
             {/* Column 1: Display correct codes */}
             <div className="flex flex-col items-start">
               {correctCodes.slice(0, 5).map((code, index) => (
@@ -182,7 +182,7 @@ export default function Input() {
             <canvas ref={canvasRef}></canvas>
           </div>
 
-          <SectionHeader content="Quote" />
+          <SectionHeader content="Nota" />
           <div className="col-span-full md:col-span-6 text-md h-fit">
             <TextScramble>
               Ho trovato una fotocopia di un giornale vecchissimo del 1862,
@@ -209,14 +209,15 @@ export default function Input() {
               della mia famiglia!
             </TextScramble>
             <div className="mb-4"></div>
-
+            <img className="w-full my-5" src="assets/images/paper.png" alt="" />
             <TextScramble>Ora voglio aprire questo scrigno.</TextScramble>
             <div className="mb-4"></div>
           </div>
         </GridLayout>
       ) : (
         <GridLayout>
-          <div className="col-span-6 flex flex-col text-xl h-fit mx-4">
+          <div className="col-span-6 flex flex-col text-md h-fit mx-4 overflow-auto">
+            <SectionHeader content="Nota" />
             <TextScramble>
               Ho trovato una fotocopia di un giornale vecchissimo del 1862,
               l’anno in cui hanno impiccato il temuto serial killer Antonio
@@ -242,13 +243,14 @@ export default function Input() {
               della mia famiglia!
             </TextScramble>
             <div className="mb-4"></div>
+            <img className="w-full my-5" src="assets/images/paper.png" alt="" />
 
             <TextScramble>Ora voglio aprire questo scrigno.</TextScramble>
             <div className="mb-4"></div>
           </div>
-          <div className="col-span-6 flex flex-col">
+          <div className="col-span-6 flex flex-col h-fit sticky top-12">
             <SectionHeader content="Scrivi" />
-            <div className="w-full relative mb-8">
+            <div className="relative mb-8">
               <input
                 className="my-crop bg-bg w-full h-[58px] absolute top-1/2 left-1/2 -translate-x-[49.9%] sm:-translate-x-[49.92%] -translate-y-1/2 z-20 text-3xl px-4"
                 type="number"
@@ -318,6 +320,13 @@ export default function Input() {
 
             <div className="mb-8">
               <canvas ref={canvasRef}></canvas>
+            </div>
+
+            <div className="w-full flex justify-between">
+              <span className="text-sm text-secondary uppercase">
+                / Niente sarà più come prima.
+              </span>
+              <span className="text-sm text-secondary uppercase">/ Input.</span>
             </div>
           </div>
         </GridLayout>
