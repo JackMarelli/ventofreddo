@@ -31,8 +31,7 @@ const RandomSVG = () => (
   </svg>
 );
 
-
-const TextScramble = ({ children }) => {
+const TextScramble = ({ children, onEnd }) => {
   const [characters, setCharacters] = useState([]);
   const charsForRandom = "!<>-_\\/[]{}—=+*^?#________";
 
@@ -49,10 +48,15 @@ const TextScramble = ({ children }) => {
         index += 1;
       } else {
         clearInterval(interval);
+
+        // Call onEnd when the animation completes
+        if (onEnd) onEnd();
       }
     }, 10);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+    };
   }, [children]);
 
   const scrambleCharacter = (index, finalChar) => {
@@ -76,7 +80,7 @@ const TextScramble = ({ children }) => {
     setTimeout(() => {
       setCharacters((prevCharacters) => [
         ...prevCharacters.slice(0, index),
-        <span className="leading-none" key={index}>
+        <span className="leading-none" key={`final-${index}`}>
           {finalChar}
         </span>,
         ...prevCharacters.slice(index + 1),

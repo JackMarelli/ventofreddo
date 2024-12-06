@@ -11,6 +11,14 @@ import { log } from "three/webgpu";
 export default function Input() {
   const [canvasImages, setCanvasIamges] = useState([]);
   const [correctCodes, setCorrectCodes] = useState([]);
+  const canvasRef = useRef(null);
+  const inputBoxRef = useRef(null);
+  const imageRef = useRef(null);
+  const api = new ApiManager();
+
+  const printTextImages = () => {
+    imageRef.current.classList.add("!h-fit");
+  }
 
   useEffect(() => {
     api
@@ -22,9 +30,6 @@ export default function Input() {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
-
-  useEffect(() => {
     api
       .get(`get-codes`, {})
       .then((response) => {
@@ -34,11 +39,12 @@ export default function Input() {
       .catch((error) => {
         console.error(error);
       });
+
+      
   }, []);
 
-  const canvasRef = useRef(null);
-  const inputRef = useRef(null);
-  const api = new ApiManager();
+
+
 
   const handleInputChange = (e) => {
     let valueString = e.target.value.toString();
@@ -50,7 +56,23 @@ export default function Input() {
       api
         .post("check-code", { code: valueString })
         .then((response) => {
-          if (response.data?.messaggio) {
+          if (response.data?.message) {
+            e.target.classList.add("!text-green-500");
+            inputBoxRef.current.classList.add("!bg-green-500");
+            setTimeout(() => {
+              inputBoxRef.current.classList.remove("!bg-green-500");
+              e.target.classList.remove("!text-green-500");
+              e.target.value = "";
+            }, 500);
+          }
+          else {
+            e.target.classList.add("!text-red-500");
+            inputBoxRef.current.classList.add("!bg-red-500");
+            setTimeout(() => {
+              inputBoxRef.current.classList.remove("!bg-red-500");
+              e.target.classList.remove("!text-red-500");
+              e.target.value = "";
+            }, 500);
           }
         })
         .catch((error) => {
@@ -111,11 +133,11 @@ export default function Input() {
           <SectionHeader content="Scrivi" />
           <div className="col-span-full md:col-span-6 w-full relative mb-8">
             <input
-              className="my-crop bg-bg w-full h-[58px] absolute top-1/2 left-1/2 -translate-x-[49.9%] sm:-translate-x-[49.92%] -translate-y-1/2 z-20 text-3xl px-4"
+              className="my-crop bg-bg w-full h-[58px] absolute top-1/2 left-1/2 -translate-x-[49.9%] sm:-translate-x-[49.92%] -translate-y-1/2 z-20 text-3xl px-4 noSelect"
               type="number"
               onChange={(e) => handleInputChange(e)}
             />
-            <div className="my-crop bg-white w-[calc(100%+1px)] sm:w-[calc(100%+2px)] h-[59px] z-10"></div>
+            <div ref={inputBoxRef} className="my-crop bg-white w-[calc(100%+1px)] sm:w-[calc(100%+2px)] h-[59px] z-10"></div>
           </div>
           <SectionHeader content="Tentativi" />
           <div className="col-span-full col-span-md-6 flex justify-between">
@@ -209,7 +231,7 @@ export default function Input() {
               della mia famiglia!
             </TextScramble>
             <div className="mb-4"></div>
-            <img className="w-full my-5" src="assets/images/paper.png" alt="" />
+            <img ref={imageRef} className="w-full my-5 h-0 !transition !duration-500 !delay-100 !ease-out" src="assets/images/paper.png" alt="" />
             <TextScramble>Ora voglio aprire questo scrigno.</TextScramble>
             <div className="mb-4"></div>
           </div>
@@ -233,7 +255,7 @@ export default function Input() {
             </TextScramble>
             <div className="mb-4"></div>
 
-            <TextScramble>
+            <TextScramble onEnd={() => printTextImages()}>
               Inizio a leggere un articolo e mi viene in mente di avere già
               sentito questo nome: forse nelle vecchie storie di nonno? Torno
               subito a casa e inizio a cercare nella scatola che mi mostrava da
@@ -243,7 +265,7 @@ export default function Input() {
               della mia famiglia!
             </TextScramble>
             <div className="mb-4"></div>
-            <img className="w-full my-5" src="assets/images/paper.png" alt="" />
+            <img ref={imageRef} className="w-full my-5 h-0 !transition !duration-500 !delay-100 !ease-out" src="assets/images/paper.png" alt="" />
 
             <TextScramble>Ora voglio aprire questo scrigno.</TextScramble>
             <div className="mb-4"></div>
@@ -252,11 +274,11 @@ export default function Input() {
             <SectionHeader content="Scrivi" />
             <div className="relative mb-8">
               <input
-                className="my-crop bg-bg w-full h-[58px] absolute top-1/2 left-1/2 -translate-x-[49.9%] sm:-translate-x-[49.92%] -translate-y-1/2 z-20 text-3xl px-4"
+                className="my-crop bg-bg w-full h-[58px] absolute top-1/2 left-1/2 -translate-x-[49.9%] sm:-translate-x-[49.92%] -translate-y-1/2 z-20 text-3xl px-4 noSelect"
                 type="number"
                 onChange={(e) => handleInputChange(e)}
               />
-              <div className="my-crop bg-white w-[calc(100%+1px)] sm:w-[calc(100%+2px)] h-[59px] z-10"></div>
+              <div ref={inputBoxRef} className="my-crop bg-white w-[calc(100%+1px)] sm:w-[calc(100%+2px)] h-[59px] z-10"></div>
             </div>
             <SectionHeader content="Attempts" />
             <div className="flex justify-between">

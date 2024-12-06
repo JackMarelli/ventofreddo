@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import ApiManager from "./api/ApiManager/ApiManager.js";
 
 function App() {
-  const [fase, setFase] = useState("countdown1");
+  const [fase, setFase] = useState("input");
   const api = new ApiManager();
 
   const FASI = {
