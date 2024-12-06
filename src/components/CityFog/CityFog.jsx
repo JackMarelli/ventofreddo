@@ -60,13 +60,16 @@ const CityFog = () => {
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setClearColor(0xf0f5f5);
 
-    effect = new AsciiEffect( renderer, ' .:-+*=%@#', { invert: true } );
-    effect.setSize( window.innerWidth, window.innerHeight );
-   
+    effect = new AsciiEffect(renderer, '  #$%&()*+,-./:;=?[^_`~', { resolution: 0.28, invert: true });
+    effect.setSize(window.innerWidth, window.innerHeight);
+    effect.domElement.style.color = 'white';
+    effect.domElement.style.backgroundColor = 'black';
+
+
 
 
     // Append renderer to component
-    mountRef.current.appendChild(renderer.domElement);
+    mountRef.current.appendChild(effect.domElement);
 
     // Orbit Controls
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -94,9 +97,9 @@ const CityFog = () => {
       // Map distanceFromCenter from -1 to 1 to the desired speed ranges
       let targetSpeed;
       if (distanceFromCenter < 0) {
-        targetSpeed = THREE.MathUtils.mapLinear(distanceFromCenter, -1, 0, -0.6, -0.4);
+        targetSpeed = THREE.MathUtils.mapLinear(distanceFromCenter, -1, 0, -2, 1);
       } else {
-        targetSpeed = THREE.MathUtils.mapLinear(distanceFromCenter, 0, 1, 0.4, 0.6);
+        targetSpeed = THREE.MathUtils.mapLinear(distanceFromCenter, 0, 1, 1, 2);
       }
 
       // Smooth transition
@@ -107,7 +110,7 @@ const CityFog = () => {
     // Animation Loop
     const animate = () => {
       controls.update();
-      renderer.render(scene, camera);
+      effect.render(scene, camera);
       requestAnimationFrame(animate);
     };
     animate();
@@ -117,12 +120,12 @@ const CityFog = () => {
       renderer.dispose();
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
-      mountRef.current.removeChild(renderer.domElement);
+      //mountRef.current.removeChild(renderer.domElement);
     };
   }, []);
 
   return (
-    <div className="w-full h-screen bg-gray-900 pointer-events-none opacity-15" ref={mountRef}>
+    <div className="fixed w-full h-screen bg-gray-900 pointer-events-none opacity-55" ref={mountRef}>
       {/* Background set using Tailwind, Three.js renderer is attached here */}
     </div>
   );
