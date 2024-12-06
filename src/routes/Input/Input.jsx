@@ -6,19 +6,20 @@ import BaseLayout from "../../layouts/BaseLayout/BaseLayout";
 import GridLayout from "../../layouts/GridLayout/GridLayout";
 import "./Input.css";
 import ApiManager from "../../api/ApiManager/ApiManager";
-import { log } from "three/webgpu";
+import { log, userData } from "three/webgpu";
 
 export default function Input() {
   const [canvasImages, setCanvasIamges] = useState([]);
   const [correctCodes, setCorrectCodes] = useState([]);
   const canvasRef = useRef(null);
+  const inputRef = useRef(null);
   const inputBoxRef = useRef(null);
   const imageRef = useRef(null);
   const api = new ApiManager();
 
   const printTextImages = () => {
     imageRef.current.classList.add("!h-fit");
-  }
+  };
 
   useEffect(() => {
     api
@@ -39,12 +40,7 @@ export default function Input() {
       .catch((error) => {
         console.error(error);
       });
-
-      
   }, []);
-
-
-
 
   const handleInputChange = (e) => {
     let valueString = e.target.value.toString();
@@ -64,8 +60,7 @@ export default function Input() {
               e.target.classList.remove("!text-green-500");
               e.target.value = "";
             }, 500);
-          }
-          else {
+          } else {
             e.target.classList.add("!text-red-500");
             inputBoxRef.current.classList.add("!bg-red-500");
             setTimeout(() => {
@@ -78,12 +73,6 @@ export default function Input() {
         .catch((error) => {
           console.error(error);
         });
-
-      e.target.classList.add("text-red-500");
-      setTimeout(() => {
-        e.target.classList.remove("text-red-500");
-        e.target.value = "";
-      }, 500);
     }
   };
 
@@ -133,11 +122,14 @@ export default function Input() {
           <SectionHeader content="Scrivi" />
           <div className="col-span-full md:col-span-6 w-full relative mb-8">
             <input
-              className="my-crop bg-bg w-full h-[58px] absolute top-1/2 left-1/2 -translate-x-[49.9%] sm:-translate-x-[49.92%] -translate-y-1/2 z-20 text-3xl px-4 noSelect"
+              className="my-crop bg-bg w-full h-[58px] absolute top-1/2 left-1/2 -translate-x-[49.9%] sm:-translate-x-[49.92%] -translate-y-1/2 z-20 text-3xl px-4"
               type="number"
               onChange={(e) => handleInputChange(e)}
             />
-            <div ref={inputBoxRef} className="my-crop bg-white w-[calc(100%+1px)] sm:w-[calc(100%+2px)] h-[59px] z-10"></div>
+            <div
+              ref={inputBoxRef}
+              className="my-crop bg-white w-[calc(100%+1px)] sm:w-[calc(100%+2px)] h-[59px] z-10 select-none"
+            ></div>
           </div>
           <SectionHeader content="Tentativi" />
           <div className="col-span-full col-span-md-6 flex justify-between">
@@ -221,17 +213,19 @@ export default function Input() {
             </TextScramble>
             <div className="mb-4"></div>
 
-            <TextScramble>
-              Inizio a leggere un articolo e mi viene in mente di avere già
-              sentito questo nome: forse nelle vecchie storie di nonno? Torno
-              subito a casa e inizio a cercare nella scatola che mi mostrava da
-              piccolo... Finalmente la trovo. Sblocco la chiusura rivelando un
-              vecchio album di famiglia, oggetti arruginiti e uno scrigno chiuso
-              da un lucchetto. Guardando le foto mi tolgo ogni dubbio: era parte
-              della mia famiglia!
+            <TextScramble onEnd={() => printTextImages()}>
+              Finalmente la trovo. Sblocco la chiusura rivelando un vecchio
+              album di famiglia, oggetti arruginiti e uno scrigno chiuso da un
+              lucchetto. Guardando le foto mi tolgo ogni dubbio: era parte della
+              mia famiglia!
             </TextScramble>
             <div className="mb-4"></div>
-            <img ref={imageRef} className="w-full my-5 h-0 !transition !duration-500 !delay-100 !ease-out" src="assets/images/paper.png" alt="" />
+            <img
+              ref={imageRef}
+              className="w-full my-5 h-0 !transition !duration-500 !delay-100 !ease-out select-none"
+              src="assets/images/paper.png"
+              alt=""
+            />
             <TextScramble>Ora voglio aprire questo scrigno.</TextScramble>
             <div className="mb-4"></div>
           </div>
@@ -246,7 +240,6 @@ export default function Input() {
               Boggia. Come ci è finita lì? Strano, no?
             </TextScramble>
             <div className="mb-4"></div>
-
             <TextScramble>
               Inizio a leggere un articolo e mi viene in mente di avere già
               sentito questo nome: forse nelle vecchie storie di nonno? Torno
@@ -254,101 +247,66 @@ export default function Input() {
               piccolo...
             </TextScramble>
             <div className="mb-4"></div>
-
             <TextScramble onEnd={() => printTextImages()}>
-              Inizio a leggere un articolo e mi viene in mente di avere già
-              sentito questo nome: forse nelle vecchie storie di nonno? Torno
-              subito a casa e inizio a cercare nella scatola che mi mostrava da
-              piccolo... Finalmente la trovo. Sblocco la chiusura rivelando un
-              vecchio album di famiglia, oggetti arruginiti e uno scrigno chiuso
-              da un lucchetto. Guardando le foto mi tolgo ogni dubbio: era parte
-              della mia famiglia!
+              Finalmente la trovo. Sblocco la chiusura rivelando un vecchio
+              album di famiglia, oggetti arruginiti e uno scrigno chiuso da un
+              lucchetto. Guardando le foto mi tolgo ogni dubbio: era parte della
+              mia famiglia!
             </TextScramble>
             <div className="mb-4"></div>
-            <img ref={imageRef} className="w-full my-5 h-0 !transition !duration-500 !delay-100 !ease-out" src="assets/images/paper.png" alt="" />
+            <img
+              ref={imageRef}
+              className="w-full my-5 h-0 !transition !duration-500 !delay-100 !ease-out"
+              src="assets/images/paper.png"
+              alt=""
+            />
 
             <TextScramble>Ora voglio aprire questo scrigno.</TextScramble>
             <div className="mb-4"></div>
           </div>
-          <div className="col-span-6 flex flex-col h-fit sticky top-12">
+          <div className="col-span-6 flex flex-col h-fit sticky top-8">
             <SectionHeader content="Scrivi" />
             <div className="relative mb-8">
               <input
-                className="my-crop bg-bg w-full h-[58px] absolute top-1/2 left-1/2 -translate-x-[49.9%] sm:-translate-x-[49.92%] -translate-y-1/2 z-20 text-3xl px-4 noSelect"
+                className="my-crop bg-bg w-full h-[58px] absolute top-1/2 left-1/2 -translate-x-[49.9%] sm:-translate-x-[49.92%] -translate-y-1/2 z-20 text-3xl px-4"
                 type="number"
                 onChange={(e) => handleInputChange(e)}
               />
-              <div ref={inputBoxRef} className="my-crop bg-white w-[calc(100%+1px)] sm:w-[calc(100%+2px)] h-[59px] z-10"></div>
+              <div
+                ref={inputBoxRef}
+                className="my-crop bg-white w-[calc(100%+1px)] sm:w-[calc(100%+2px)] h-[59px] z-10 select-none"
+              ></div>
             </div>
             <SectionHeader content="Attempts" />
-            <div className="flex justify-between">
-              {/* Column 1: Display correct codes */}
-              <div className="flex flex-col items-start">
-                {correctCodes.slice(0, 5).map((code, index) => (
+            <div className="flex flex-wrap">
+              {/* Map over the total 25 items, prioritizing correctCodes */}
+              {Array.from({ length: 15 }).map((_, index) => {
+                const code = correctCodes[index]; // Get the code if it exists
+                return code ? (
                   <Attempt
-                    key={index}
+                    key={`code-${index}`}
                     count={String(index).padStart(4, "0")}
                     code={code}
                     color="text-accent-success"
                   />
-                ))}
-                {/* Fill with placeholders if fewer than 5 codes */}
-                {Array.from({
-                  length: 5 - correctCodes.slice(0, 5).length,
-                }).map((_, index) => (
-                  <Attempt key={`placeholder1-${index}`} />
-                ))}
-              </div>
-
-              {/* Column 2: Display next set of correct codes */}
-              <div className="flex flex-col items-center">
-                {correctCodes.slice(5, 7).map((code, index) => (
-                  <Attempt
-                    key={index + 5}
-                    count={String(index + 5).padStart(4, "0")}
-                    code={code}
-                    color="text-accent-success"
-                  />
-                ))}
-                {/* Fill with placeholders if fewer than 2 codes */}
-                {Array.from({
-                  length: 2 - correctCodes.slice(5, 7).length,
-                }).map((_, index) => (
-                  <Attempt key={`placeholder2-${index}`} />
-                ))}
-              </div>
-
-              {/* Column 3: Display last set of correct codes */}
-              <div className="flex flex-col items-end">
-                {correctCodes.slice(7, 9).map((code, index) => (
-                  <Attempt
-                    key={index + 7}
-                    count={String(index + 7).padStart(4, "0")}
-                    code={code}
-                    color="text-accent-success"
-                  />
-                ))}
-                {/* Fill with placeholders if fewer than 2 codes */}
-                {Array.from({
-                  length: 2 - correctCodes.slice(7, 9).length,
-                }).map((_, index) => (
-                  <Attempt key={`placeholder3-${index}`} />
-                ))}
-              </div>
+                ) : (
+                  <Attempt key={`placeholder-${index}`} />
+                );
+              })}
             </div>
 
             <div className="mt-8"></div>
             <SectionHeader content="Code" />
-
-            <div className="mb-8">
+            <div className="mb-4">
               <canvas ref={canvasRef}></canvas>
             </div>
-
             <div className="w-full flex justify-between">
               <span className="text-sm text-secondary uppercase">
                 / Niente sarà più come prima.
               </span>
-              <span className="text-sm text-secondary uppercase">/ Input.</span>
+              <span className="text-sm text-secondary uppercase">
+                / Diario.
+              </span>
             </div>
           </div>
         </GridLayout>
