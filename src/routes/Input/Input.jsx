@@ -133,7 +133,7 @@ export default function Input() {
           </div>
           <SectionHeader content="Tentativi" />
           <div className="col-span-full col-span-md-6 flex justify-between">
-            {/* Column 1: Display correct codes */}
+            {/* Column 1: Always show 5 codes */}
             <div className="flex flex-col items-start">
               {correctCodes.slice(0, 5).map((code, index) => (
                 <Attempt
@@ -143,7 +143,6 @@ export default function Input() {
                   color="text-accent-success"
                 />
               ))}
-              {/* Fill with placeholders if fewer than 5 codes */}
               {Array.from({ length: 5 - correctCodes.slice(0, 5).length }).map(
                 (_, index) => (
                   <Attempt key={`placeholder1-${index}`} />
@@ -151,9 +150,9 @@ export default function Input() {
               )}
             </div>
 
-            {/* Column 2: Display next set of correct codes */}
+            {/* Column 2: Always show 5 codes */}
             <div className="flex flex-col items-center">
-              {correctCodes.slice(5, 7).map((code, index) => (
+              {correctCodes.slice(5, 10).map((code, index) => (
                 <Attempt
                   key={index + 5}
                   count={String(index + 5).padStart(4, "0")}
@@ -161,26 +160,24 @@ export default function Input() {
                   color="text-accent-success"
                 />
               ))}
-              {/* Fill with placeholders if fewer than 2 codes */}
-              {Array.from({ length: 2 - correctCodes.slice(5, 7).length }).map(
+              {Array.from({ length: 5 - correctCodes.slice(5, 10).length }).map(
                 (_, index) => (
                   <Attempt key={`placeholder2-${index}`} />
                 )
               )}
             </div>
 
-            {/* Column 3: Display last set of correct codes */}
+            {/* Column 3: Always show 5 codes */}
             <div className="flex flex-col items-end">
-              {correctCodes.slice(7, 9).map((code, index) => (
+              {correctCodes.slice(10, 15).map((code, index) => (
                 <Attempt
-                  key={index + 7}
-                  count={String(index + 7).padStart(4, "0")}
+                  key={index + 10}
+                  count={String(index + 10).padStart(4, "0")}
                   code={code}
                   color="text-accent-success"
                 />
               ))}
-              {/* Fill with placeholders if fewer than 2 codes */}
-              {Array.from({ length: 2 - correctCodes.slice(7, 9).length }).map(
+              {Array.from({ length: 5 - correctCodes.slice(10, 15).length }).map(
                 (_, index) => (
                   <Attempt key={`placeholder3-${index}`} />
                 )
@@ -197,38 +194,7 @@ export default function Input() {
           </div>
 
           <SectionHeader content="Nota" />
-          <div className="col-span-full md:col-span-6 text-md h-fit">
-            <TextScramble>
-              Ho trovato una fotocopia di un giornale vecchissimo del 1862,
-              l’anno in cui hanno impiccato il temuto serial killer Antonio
-              Boggia. Come ci è finita lì? Strano, no?
-            </TextScramble>
-            <div className="mb-4"></div>
-
-            <TextScramble>
-              Inizio a leggere un articolo e mi viene in mente di avere già
-              sentito questo nome: forse nelle vecchie storie di nonno? Torno
-              subito a casa e inizio a cercare nella scatola che mi mostrava da
-              piccolo...
-            </TextScramble>
-            <div className="mb-4"></div>
-
-            <TextScramble onEnd={() => printTextImages()}>
-              Finalmente la trovo. Sblocco la chiusura rivelando un vecchio
-              album di famiglia, oggetti arruginiti e uno scrigno chiuso da un
-              lucchetto. Guardando le foto mi tolgo ogni dubbio: era parte della
-              mia famiglia!
-            </TextScramble>
-            <div className="mb-4"></div>
-            <img
-              ref={imageRef}
-              className="w-full my-5 h-0 !transition !duration-500 !delay-100 !ease-out select-none"
-              src="assets/images/paper.png"
-              alt=""
-            />
-            <TextScramble>Ora voglio aprire questo scrigno.</TextScramble>
-            <div className="mb-4"></div>
-          </div>
+          <div></div>
         </GridLayout>
       ) : (
         <GridLayout>
@@ -278,21 +244,57 @@ export default function Input() {
               ></div>
             </div>
             <SectionHeader content="Attempts" />
-            <div className="flex flex-wrap">
-              {/* Map over the total 25 items, prioritizing correctCodes */}
-              {Array.from({ length: 15 }).map((_, index) => {
-                const code = correctCodes[index]; // Get the code if it exists
-                return code ? (
-                  <Attempt
-                    key={`code-${index}`}
-                    count={String(index).padStart(4, "0")}
-                    code={code}
-                    color="text-accent-success"
-                  />
-                ) : (
-                  <Attempt key={`placeholder-${index}`} />
-                );
-              })}
+            <div className="flex justify-between">
+              {/* Column 1: Always show 5 codes */}
+            <div className="flex flex-col items-start">
+              {correctCodes.slice(0, 5).map((code, index) => (
+                <Attempt
+                  key={index}
+                  count={String(index).padStart(4, "0")}
+                  code={code}
+                  color="text-accent-success"
+                />
+              ))}
+              {Array.from({ length: 5 - correctCodes.slice(0, 5).length }).map(
+                (_, index) => (
+                  <Attempt key={`placeholder1-${index}`} />
+                )
+              )}
+            </div>
+
+            {/* Column 2: Always show 5 codes */}
+            <div className="flex flex-col items-center">
+              {correctCodes.slice(5, 10).map((code, index) => (
+                <Attempt
+                  key={index + 5}
+                  count={String(index + 5).padStart(4, "0")}
+                  code={code}
+                  color="text-accent-success"
+                />
+              ))}
+              {Array.from({ length: 5 - correctCodes.slice(5, 10).length }).map(
+                (_, index) => (
+                  <Attempt key={`placeholder2-${index}`} />
+                )
+              )}
+            </div>
+
+            {/* Column 3: Always show 5 codes */}
+            <div className="flex flex-col items-end">
+              {correctCodes.slice(10, 15).map((code, index) => (
+                <Attempt
+                  key={index + 10}
+                  count={String(index + 10).padStart(4, "0")}
+                  code={code}
+                  color="text-accent-success"
+                />
+              ))}
+              {Array.from({ length: 5 - correctCodes.slice(10, 15).length }).map(
+                (_, index) => (
+                  <Attempt key={`placeholder3-${index}`} />
+                )
+              )}
+            </div>
             </div>
 
             <div className="mt-8"></div>
@@ -300,11 +302,11 @@ export default function Input() {
             <div className="mb-4">
               <canvas ref={canvasRef}></canvas>
             </div>
-            <div className="w-full flex justify-between">
-              <span className="text-sm text-secondary uppercase">
+            <div className="w-full flex justify-between mt-8">
+              <span className="text-xs text-secondary uppercase">
                 / Niente sarà più come prima.
               </span>
-              <span className="text-sm text-secondary uppercase">
+              <span className="text-xs text-secondary uppercase">
                 / Diario.
               </span>
             </div>

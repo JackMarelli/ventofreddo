@@ -15,10 +15,10 @@ const CountDown = ({ quote }) => {
           <TextScramble>{quote}</TextScramble>
         </div>
       </GridLayout>
-      <div className="w-fit h-fit absolute bottom-8 left-4 text-sm text-secondary uppercase">
+      <div className="w-fit h-fit absolute bottom-8 left-4 text-xs text-secondary uppercase">
         / Niente sarà più come prima .
       </div>
-      <div className="w-fit h-fit absolute bottom-8 right-4 text-sm text-secondary uppercase text-end">
+      <div className="w-fit h-fit absolute bottom-8 right-4 text-xs text-secondary uppercase text-end">
         / Diario .
       </div>
     </BaseLayout>

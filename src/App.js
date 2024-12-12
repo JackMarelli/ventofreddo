@@ -8,6 +8,7 @@ import ApiManager from "./api/ApiManager/ApiManager.js";
 
 function App() {
   const [fase, setFase] = useState("input");
+  const [isQrComplete, setQrComplete] = useState(false);
   const api = new ApiManager();
 
   const FASI = {
@@ -23,12 +24,26 @@ function App() {
       .get(`phase`, {})
       .then((response) => {
         console.log(response);
-        setFase(FASI[response.data?.number])
+        //setFase(FASI[response.data?.number])
       })
       .catch((error) => {
         console.error(error);
       });
   }, []);
+
+  useEffect(() => {
+    if (fase === "countdown1" || fase === "countdown2") {
+      api
+        .get(`getCd`, {})
+        .then((response) => {
+          console.log(response);
+
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [fase]);
 
   return (
     <>

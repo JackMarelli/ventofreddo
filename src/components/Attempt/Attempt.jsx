@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 export default function Attempt({
-  count = "0000",
+  count = "XXXX",
   code = "XXXXXXX",
   color = "text-primary",
 }) {
