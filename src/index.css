@@ -4,6 +4,7 @@
 
 html, body {
   background-color: #1e1e1e;
+  overscroll-behavior: none;
 }
 
 ::-webkit-scrollbar {
@@ -22,7 +23,7 @@ html, body {
   }
 }
 
-.noSelect {
+.select-none {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -33,7 +34,7 @@ html, body {
   opacity: 1;
 
 }
-.noSelect:focus {
+.select-none:focus {
   outline: none !important;
   opacity: 0.96;
 }

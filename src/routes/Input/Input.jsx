@@ -81,8 +81,8 @@ export default function Input() {
     const ctx = canvas.getContext("2d");
 
     if (window.innerWidth >= 768) {
-      canvas.width = window.innerWidth * 0.2;
-      canvas.height = window.innerWidth * 0.2;
+      canvas.width = Math.min(window.innerWidth * 0.2, 260);
+      canvas.height = Math.min(window.innerWidth * 0.2, 260);
     } else {
       canvas.width = window.innerWidth - 16 * 2;
       canvas.height = window.innerWidth - 16 * 2;
@@ -120,7 +120,7 @@ export default function Input() {
       {window.innerWidth < 768 ? (
         <GridLayout>
           <SectionHeader content="Scrivi" />
-          <div className="col-span-full md:col-span-6 w-full relative mb-8">
+          <div className="col-span-full md:col-span-6 w-full relative mb-8 select-none">
             <input
               className="my-crop bg-bg w-full h-[58px] absolute top-1/2 left-1/2 -translate-x-[49.9%] sm:-translate-x-[49.92%] -translate-y-1/2 z-20 text-3xl px-4"
               type="number"
@@ -128,7 +128,7 @@ export default function Input() {
             />
             <div
               ref={inputBoxRef}
-              className="my-crop bg-white w-[calc(100%+1px)] sm:w-[calc(100%+2px)] h-[59px] z-10 select-none"
+              className="my-crop bg-white w-[calc(100%+1px)] sm:w-[calc(100%+2px)] h-[59px] z-10"
             ></div>
           </div>
           <SectionHeader content="Tentativi" />
@@ -177,11 +177,11 @@ export default function Input() {
                   color="text-accent-success"
                 />
               ))}
-              {Array.from({ length: 5 - correctCodes.slice(10, 15).length }).map(
-                (_, index) => (
-                  <Attempt key={`placeholder3-${index}`} />
-                )
-              )}
+              {Array.from({
+                length: 5 - correctCodes.slice(10, 15).length,
+              }).map((_, index) => (
+                <Attempt key={`placeholder3-${index}`} />
+              ))}
             </div>
           </div>
 
@@ -232,7 +232,7 @@ export default function Input() {
           </div>
           <div className="col-span-6 flex flex-col h-fit sticky top-8">
             <SectionHeader content="Scrivi" />
-            <div className="relative mb-8">
+            <div className="relative mb-8 select-none">
               <input
                 className="my-crop bg-bg w-full h-[58px] absolute top-1/2 left-1/2 -translate-x-[49.9%] sm:-translate-x-[49.92%] -translate-y-1/2 z-20 text-3xl px-4"
                 type="number"
@@ -240,61 +240,61 @@ export default function Input() {
               />
               <div
                 ref={inputBoxRef}
-                className="my-crop bg-white w-[calc(100%+1px)] sm:w-[calc(100%+2px)] h-[59px] z-10 select-none"
+                className="my-crop bg-white w-[calc(100%+1px)] sm:w-[calc(100%+2px)] h-[59px] z-10"
               ></div>
             </div>
             <SectionHeader content="Attempts" />
             <div className="flex justify-between">
               {/* Column 1: Always show 5 codes */}
-            <div className="flex flex-col items-start">
-              {correctCodes.slice(0, 5).map((code, index) => (
-                <Attempt
-                  key={index}
-                  count={String(index).padStart(4, "0")}
-                  code={code}
-                  color="text-accent-success"
-                />
-              ))}
-              {Array.from({ length: 5 - correctCodes.slice(0, 5).length }).map(
-                (_, index) => (
+              <div className="flex flex-col items-start">
+                {correctCodes.slice(0, 5).map((code, index) => (
+                  <Attempt
+                    key={index}
+                    count={String(index).padStart(4, "0")}
+                    code={code}
+                    color="text-accent-success"
+                  />
+                ))}
+                {Array.from({
+                  length: 5 - correctCodes.slice(0, 5).length,
+                }).map((_, index) => (
                   <Attempt key={`placeholder1-${index}`} />
-                )
-              )}
-            </div>
+                ))}
+              </div>
 
-            {/* Column 2: Always show 5 codes */}
-            <div className="flex flex-col items-center">
-              {correctCodes.slice(5, 10).map((code, index) => (
-                <Attempt
-                  key={index + 5}
-                  count={String(index + 5).padStart(4, "0")}
-                  code={code}
-                  color="text-accent-success"
-                />
-              ))}
-              {Array.from({ length: 5 - correctCodes.slice(5, 10).length }).map(
-                (_, index) => (
+              {/* Column 2: Always show 5 codes */}
+              <div className="flex flex-col items-center">
+                {correctCodes.slice(5, 10).map((code, index) => (
+                  <Attempt
+                    key={index + 5}
+                    count={String(index + 5).padStart(4, "0")}
+                    code={code}
+                    color="text-accent-success"
+                  />
+                ))}
+                {Array.from({
+                  length: 5 - correctCodes.slice(5, 10).length,
+                }).map((_, index) => (
                   <Attempt key={`placeholder2-${index}`} />
-                )
-              )}
-            </div>
+                ))}
+              </div>
 
-            {/* Column 3: Always show 5 codes */}
-            <div className="flex flex-col items-end">
-              {correctCodes.slice(10, 15).map((code, index) => (
-                <Attempt
-                  key={index + 10}
-                  count={String(index + 10).padStart(4, "0")}
-                  code={code}
-                  color="text-accent-success"
-                />
-              ))}
-              {Array.from({ length: 5 - correctCodes.slice(10, 15).length }).map(
-                (_, index) => (
+              {/* Column 3: Always show 5 codes */}
+              <div className="flex flex-col items-end">
+                {correctCodes.slice(10, 15).map((code, index) => (
+                  <Attempt
+                    key={index + 10}
+                    count={String(index + 10).padStart(4, "0")}
+                    code={code}
+                    color="text-accent-success"
+                  />
+                ))}
+                {Array.from({
+                  length: 5 - correctCodes.slice(10, 15).length,
+                }).map((_, index) => (
                   <Attempt key={`placeholder3-${index}`} />
-                )
-              )}
-            </div>
+                ))}
+              </div>
             </div>
 
             <div className="mt-8"></div>
