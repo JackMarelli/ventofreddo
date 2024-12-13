@@ -1,3 +1,3 @@
 export default function BaseLayout({ children }) {
-  return <div className="w-full h-fit min-h-screen bg-bg py-8 text-primary">{children}</div>;
+  return <div className="w-full h-fit min-h-screen bg-bg text-primary">{children}</div>;
 }

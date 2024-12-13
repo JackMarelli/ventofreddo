@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import ApiManager from "./api/ApiManager/ApiManager.js";
 
 function App() {
-  const [fase, setFase] = useState("input");
+  const [fase, setFase] = useState("map");
   const [isQrComplete, setQrComplete] = useState(false);
   const [endDateTime, setEndDateTime] = useState(""); // State to store countdown end time
   const api = new ApiManager();

@@ -24,7 +24,7 @@ const MapBox = ({ className }) => {
     [9.1919, 45.4641],
   ];
 
-  const totalDuration = 5000;
+  const totalDuration = 50000;
 
   useEffect(() => {
     if (!map.current) {

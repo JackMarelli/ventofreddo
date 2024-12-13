@@ -81,8 +81,8 @@ export default function Input() {
     const ctx = canvas.getContext("2d");
 
     if (window.innerWidth >= 768) {
-      canvas.width = Math.min(window.innerWidth * 0.2, 260);
-      canvas.height = Math.min(window.innerWidth * 0.2, 260);
+      canvas.width = Math.min(window.innerWidth * 0.2, 240);
+      canvas.height = Math.min(window.innerWidth * 0.2, 240);
     } else {
       canvas.width = window.innerWidth - 16 * 2;
       canvas.height = window.innerWidth - 16 * 2;
