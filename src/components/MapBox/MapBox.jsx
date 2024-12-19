@@ -11,20 +11,51 @@ const MapBox = ({ className }) => {
   const markerRef = useRef(null);
 
   const coordinates = [
-    [9.1919, 45.4641],
-    [9.1919, 45.4649],
-    [9.1919, 45.4661],
-    [9.194, 45.4661],
-    [9.194, 45.4671],
-    [9.194, 45.4679],
-    [9.194, 45.4671],
-    [9.194, 45.4661],
-    [9.1919, 45.4661],
-    [9.1919, 45.4649],
-    [9.1919, 45.4641],
+    [9.170016, 45.472438],
+    [9.170896, 45.475415],
+    [9.172128, 45.475546],
+    [9.171901, 45.477225],
+    [9.173412, 45.476990],
+    [9.173091, 45.475482],
+    [9.171982, 45.473695],
+    [9.173499, 45.473040],
+    [9.174891, 45.473290],
+    [9.174022, 45.475159],
+    [9.174671, 45.476635],
+    [9.175756, 45.476460],
+    [9.175478, 45.475437],
+    [9.176085, 45.473349],
+    [9.175393, 45.471980],
+    [9.176556, 45.471876],
+    [9.177777, 45.473148],
+
+    [9.177146, 45.473162],
+
+
+
+    [9.177777, 45.473148],
+    [9.176556, 45.471876],
+    [9.175393, 45.471980],
+    [9.176085, 45.473349],
+    [9.175478, 45.475437],
+    [9.175756, 45.476460],
+    [9.174671, 45.476635],
+    [9.174022, 45.475159],
+    [9.174891, 45.473290],
+    [9.173499, 45.473040],
+    [9.171982, 45.473695],
+    [9.173091, 45.475482],
+    [9.173412, 45.476990],
+    [9.171901, 45.477225],
+    [9.172128, 45.475546],
+    [9.170896, 45.475415],
+    [9.170016, 45.472438]
+
+
   ];
 
-  const totalDuration = 50000;
+
+  const totalDuration = 270000;
 
   useEffect(() => {
     if (!map.current) {
@@ -32,7 +63,7 @@ const MapBox = ({ className }) => {
         container: mapContainer.current,
         style: "mapbox://styles/jackmarelli/cm2da6wzv006201ph66aqamf0",
         zoom: 15,
-        center: [9.1919, 45.4641],
+        center: [9.171901, 45.477225],
         minZoom: 9,
         maxZoom: 16,
         attributionControl: false,
@@ -40,6 +71,7 @@ const MapBox = ({ className }) => {
 
       map.current.dragRotate.disable();
       map.current.touchPitch.disable();
+      map.current.touchZoomRotate.disableRotation();
 
       const geojson = {
         type: 'FeatureCollection',
@@ -49,8 +81,8 @@ const MapBox = ({ className }) => {
             geometry: {
               type: 'LineString',
               coordinates: [
-                [-9.090313, 45.472476],
-                [100.090313, 45.472476],
+                [-9.090313, 45.474374],
+                [100.090313, 45.474374],
               ],
             },
           },
@@ -121,9 +153,9 @@ const MapBox = ({ className }) => {
           if (
             trailCoordinates.length === 0 ||
             trailCoordinates[trailCoordinates.length - 1][0] !==
-              interpolatedPosition[0] ||
+            interpolatedPosition[0] ||
             trailCoordinates[trailCoordinates.length - 1][1] !==
-              interpolatedPosition[1]
+            interpolatedPosition[1]
           ) {
             trailCoordinates.push(interpolatedPosition);
             map.current.getSource("trail").setData({

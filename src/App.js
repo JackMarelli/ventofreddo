@@ -4,6 +4,7 @@ import Input from "./routes/Input/Input.jsx";
 import Map from "./routes/Map/Map.jsx";
 import { useState, useEffect } from "react";
 import ApiManager from "./api/ApiManager/ApiManager.js";
+import Diary from "./routes/Diary/Diary.jsx";
 
 function App() {
   const [fase, setFase] = useState("map");
@@ -16,7 +17,7 @@ function App() {
     1: "input",
     2: "countdown2",
     3: "map",
-    4: "",
+    4: "countdown3",
   };
 
   // Fetch phase
@@ -57,6 +58,9 @@ function App() {
   return (
     <>
       <Routes>
+
+        <Route path="/diary" element={<Diary />} />
+
         {/* Sequenza 1 */}
         {fase === "countdown1" && (
           <Route
