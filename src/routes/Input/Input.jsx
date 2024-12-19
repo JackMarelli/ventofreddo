@@ -26,7 +26,13 @@ export default function Input() {
       .get(`get-photos`, {})
       .then((response) => {
         console.log(response);
-        setCanvasIamges(response?.data?.photos);
+        if(response.data.message = "Nessuna foto disponibile"){
+          setCanvasIamges([]);
+        }
+        else{
+          setCanvasIamges(response?.data?.photos);
+        }
+        
       })
       .catch((error) => {
         console.error(error);
@@ -34,8 +40,14 @@ export default function Input() {
     api
       .get(`get-codes`, {})
       .then((response) => {
-        console.log(response);
-        setCorrectCodes(response?.data?.codes);
+        console.log(response.data);
+        if(response.data.message = "Nessun codice disponibile"){
+          setCorrectCodes([]);
+        }
+        else{
+          setCorrectCodes(response?.data?.codes);
+        }
+        
       })
       .catch((error) => {
         console.error(error);
@@ -247,7 +259,7 @@ export default function Input() {
             <div className="flex justify-between">
               {/* Column 1: Always show 5 codes */}
               <div className="flex flex-col items-start">
-                {correctCodes.slice(0, 5).map((code, index) => (
+                { correctCodes.slice(0, 5).map((code, index) => (
                   <Attempt
                     key={index}
                     count={String(index).padStart(4, "0")}
