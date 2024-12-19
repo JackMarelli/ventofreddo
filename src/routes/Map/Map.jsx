@@ -60,15 +60,11 @@ const Map = () => {
         <div className="w-screen h-screen relative overflow-hidden">
           <MapBox className="absolute h-screen start-0 end-0" />
           <div className="absolute top-0 bottom-0 start-0 end-0 overflow-auto flex flex-col gap-x-2 px-4 py-8 bg-transparent pointer-events-none">
-            <div className="my-crop bg-bg w-full relative mb-8 select-none flex">
-              <div
-                ref={inputBoxRef}
-                className="my-crop bg-white w-[calc(100%+1px)] w-full h-[59px] z-10 select-none"
-              ></div>
-              <div className="absolute top-1/2 -translate-y-1/2 flex bg-bg text-xl px-4 h-[56px] w-[calc(100%-2px)] z-50">
+            <div className="my-crop w-full relative bg-white h-16 pointer-events-auto">
+              <div className="my-crop bg-bg absolute top-1/2 -translate-y-1/2 start-1/2 -translate-x-1/2 w-[calc(100%-3px)] h-[calc(100%-3px)] flex px-4 z-10 select-none">
                 <input
                   ref={inputBoxRef}
-                  className="text-start bg-bg w-1/2 placeholder:text-gray-400 select-none"
+                  className="text-xl text-start bg-bg w-1/2 placeholder:text-gray-400 select-none"
                   type="text"
                   value={inputValue}
                   placeholder="XXXXXX.XX"
@@ -80,20 +76,31 @@ const Map = () => {
                 </span>
               </div>
             </div>
-            <div className="w-full relative bg-white my-crop h-fit">
-              <div className="my-crop absolute top-0 start-0 end-0 h-48 overflow-scroll">
-                Ho trovato una fotocopia di un giornale vecchissimo del 1862,
-                l’anno in cui hanno impiccato il temuto serial killer Antonio
-                Boggia. Come ci è finita lì? Strano, no?
+            <div className="absolute bottom-4 start-4 end-4">
+              <div className="my-crop w-full relative bg-white h-48 pointer-events-auto">
+                <div className="my-crop bg-bg absolute top-1/2 -translate-y-1/2 start-1/2 -translate-x-1/2 w-[calc(100%-3px)] h-[calc(100%-3px)] overflow-scroll p-4">
+                  Ho trovato una fotocopia di un giornale vecchissimo del 1862,
+                  l’anno in cui hanno impiccato il temuto serial killer Antonio
+                  Boggia. Come ci è finita lì? Strano, no? <br />
+                  Inizio a leggere un articolo e mi viene in mente di avere già
+                  sentito questo nome: forse nelle vecchie storie di nonno?
+                  Torno subito a casa e inizio a cercare nella scatola che mi
+                  mostrava da piccolo... <br />
+                  Finalmente la trovo. Sblocco la chiusura rivelando un vecchio
+                  album di famiglia, oggetti arruginiti e uno scrigno chiuso da
+                  un lucchetto. Guardando le foto mi tolgo ogni dubbio: era
+                  parte della mia famiglia! <br /> Ora voglio aprire questo
+                  scrigno.
+                </div>
               </div>
-            </div>
-            <div className="w-full flex grow justify-between items-end mt-8">
-              <span className="text-xs text-secondary uppercase">
-                / Niente sarà più come prima.
-              </span>
-              <span className="text-xs text-secondary uppercase">
-                / Diario.
-              </span>
+              <div className="w-full flex grow justify-between items-end mt-8">
+                <span className="text-xs text-secondary uppercase">
+                  / Niente sarà più come prima.
+                </span>
+                <span className="text-xs text-secondary uppercase">
+                  / Diario.
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -101,17 +108,21 @@ const Map = () => {
         <div className="w-screen h-screen flex">
           <div className="w-1/2 overflow-auto flex flex-col gap-x-2 gap-x-4 px-8">
             <SectionHeader content="Sii Intelligente" />
-            <div className="relative mb-8 select-none flex items-center">
-              <input
-                ref={inputBoxRef}
-                className="my-crop bg-bg text-3xl px-4 w-[200px] h-[58px] text-start placeholder:text-gray-400 select-none"
-                type="text"
-                value={inputValue}
-                placeholder="XXXXXX.XX"
-                onChange={handleInputChange}
-                maxLength={9}
-              />
-              <span className="text-3xl font-mono ml-2">- 204815.55</span>
+            <div className="my-crop w-full relative bg-white h-16 pointer-events-auto">
+              <div className="my-crop bg-bg absolute top-1/2 -translate-y-1/2 start-1/2 -translate-x-1/2 w-[calc(100%-3px)] h-[calc(100%-3px)] flex px-4 z-10 select-none">
+                <input
+                  ref={inputBoxRef}
+                  className="text-xl text-start bg-bg w-1/2 placeholder:text-gray-400 select-none"
+                  type="text"
+                  value={inputValue}
+                  placeholder="XXXXXX.XX"
+                  onChange={handleInputChange}
+                  maxLength={9}
+                />
+                <span className="text-xl flex items-center w-1/2 font-mono ml-2 bg-bg">
+                  - 204815.55
+                </span>
+              </div>
             </div>
             <SectionHeader content="Nota" />
             <TextScramble>

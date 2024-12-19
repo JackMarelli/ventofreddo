@@ -7,7 +7,7 @@ import ApiManager from "./api/ApiManager/ApiManager.js";
 import Diary from "./routes/Diary/Diary.jsx";
 
 function App() {
-  const [fase, setFase] = useState("input");
+  const [fase, setFase] = useState("map");
   const [isQrComplete, setQrComplete] = useState(false);
   const [endDateTime, setEndDateTime] = useState(""); // State to store countdown end time
   const api = new ApiManager();
