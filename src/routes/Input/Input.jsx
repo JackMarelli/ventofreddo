@@ -26,13 +26,11 @@ export default function Input() {
       .get(`get-photos`, {})
       .then((response) => {
         console.log(response);
-        if(response.data.message = "Nessuna foto disponibile"){
+        if ((response.data.message = "Nessuna foto disponibile")) {
           setCanvasIamges([]);
-        }
-        else{
+        } else {
           setCanvasIamges(response?.data?.photos);
         }
-        
       })
       .catch((error) => {
         console.error(error);
@@ -41,13 +39,11 @@ export default function Input() {
       .get(`get-codes`, {})
       .then((response) => {
         console.log(response.data);
-        if(response.data.message = "Nessun codice disponibile"){
+        if ((response.data.message = "Nessun codice disponibile")) {
           setCorrectCodes([]);
-        }
-        else{
+        } else {
           setCorrectCodes(response?.data?.codes);
         }
-        
       })
       .catch((error) => {
         console.error(error);
@@ -206,30 +202,57 @@ export default function Input() {
           </div>
 
           <SectionHeader content="Nota" />
-          <div></div>
+          <TextScramble>
+            Sto camminando lungo il naviglio e ho trovato una fotocopia di un
+            giornale vecchissimo del 1862, l’anno in cui hanno impiccato il
+            temuto serial killer Antonio Boggia. Come ci è finita lì? Strano,
+            no?
+          </TextScramble>
+          <div className="mb-4"></div>
+          <TextScramble>
+            Inizio a leggere un articolo e mi viene in mente di avere già
+            sentito questo nome: forse nelle vecchie storie di mio nonno? Torno
+            subito a casa e inizio a cercare nella scatola che mi mostrava da
+            piccolo...
+          </TextScramble>
+          <div className="mb-4"></div>
+          <TextScramble onEnd={() => printTextImages()}>
+            Finalmente la trovo. Dentro c’è un vecchio album di famiglia,
+            oggetti arruginiti e uno scrigno chiuso da un lucchetto. Guardando
+            le foto i ritratti, inizia a venirmi un dubbio: Boggia era parte
+            della mia famiglia? E poi, chi è la donna ritratta accanto a lui?
+          </TextScramble>
+          <div className="mb-4"></div>
+          <img
+            ref={imageRef}
+            className="w-full my-5 h-0 !transition !duration-500 !delay-100 !ease-out"
+            src="assets/images/paper.png"
+            alt=""
+          />
         </GridLayout>
       ) : (
         <GridLayout>
           <div className="col-span-6 flex flex-col text-md h-fit mx-4 overflow-auto">
             <SectionHeader content="Nota" />
             <TextScramble>
-              Ho trovato una fotocopia di un giornale vecchissimo del 1862,
-              l’anno in cui hanno impiccato il temuto serial killer Antonio
-              Boggia. Come ci è finita lì? Strano, no?
+              Sto camminando lungo il naviglio e ho trovato una fotocopia di un
+              giornale vecchissimo del 1862, l’anno in cui hanno impiccato il
+              temuto serial killer Antonio Boggia. Come ci è finita lì? Strano,
+              no?
             </TextScramble>
             <div className="mb-4"></div>
             <TextScramble>
               Inizio a leggere un articolo e mi viene in mente di avere già
-              sentito questo nome: forse nelle vecchie storie di nonno? Torno
-              subito a casa e inizio a cercare nella scatola che mi mostrava da
-              piccolo...
+              sentito questo nome: forse nelle vecchie storie di mio nonno?
+              Torno subito a casa e inizio a cercare nella scatola che mi
+              mostrava da piccolo...
             </TextScramble>
             <div className="mb-4"></div>
             <TextScramble onEnd={() => printTextImages()}>
-              Finalmente la trovo. Sblocco la chiusura rivelando un vecchio
-              album di famiglia, oggetti arruginiti e uno scrigno chiuso da un
-              lucchetto. Guardando le foto mi tolgo ogni dubbio: era parte della
-              mia famiglia!
+              Finalmente la trovo. Dentro c’è un vecchio album di famiglia,
+              oggetti arruginiti e uno scrigno chiuso da un lucchetto. Guardando
+              le foto i ritratti, inizia a venirmi un dubbio: Boggia era parte
+              della mia famiglia? E poi, chi è la donna ritratta accanto a lui?
             </TextScramble>
             <div className="mb-4"></div>
             <img
@@ -238,8 +261,6 @@ export default function Input() {
               src="assets/images/paper.png"
               alt=""
             />
-
-            <TextScramble>Ora voglio aprire questo scrigno.</TextScramble>
             <div className="mb-4"></div>
           </div>
           <div className="col-span-6 flex flex-col h-fit sticky top-8">
@@ -259,7 +280,7 @@ export default function Input() {
             <div className="flex justify-between">
               {/* Column 1: Always show 5 codes */}
               <div className="flex flex-col items-start">
-                { correctCodes.slice(0, 5).map((code, index) => (
+                {correctCodes.slice(0, 5).map((code, index) => (
                   <Attempt
                     key={index}
                     count={String(index).padStart(4, "0")}

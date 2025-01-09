@@ -13,11 +13,11 @@ function App() {
   const api = new ApiManager();
 
   const FASI = {
-    0: "countdown1",
-    1: "input",
-    2: "countdown2",
-    3: "map",
-    4: "countdown3",
+    1: "countdown1",
+    2: "input",
+    3: "countdown2",
+    4: "map",
+    5: "countdown3",
   };
 
   // Fetch phase
@@ -26,7 +26,8 @@ function App() {
       .get(`phase`, {})
       .then((response) => {
         console.log("phase:", response);
-        //setFase(FASI[response.data?.number] || "countdown1");
+        //setFase(FASI[response.data?.phase] || "countdown1");
+        setFase("map");
       })
       .catch((error) => {
         console.error("Error fetching phase:", error);
@@ -35,7 +36,7 @@ function App() {
 
   // Fetch countdown details when `fase` changes
   useEffect(() => {
-    if (fase === "countdown1" || fase === "countdown2") {
+    if (fase === "countdown1" || fase === "countdown2" || fase == "countdown3") {
       api
         .get(`countdown`, {})
         .then((response) => {
@@ -59,7 +60,7 @@ function App() {
     <>
       <Routes>
 
-        <Route path="/diary" element={<Diary />} />
+        <Route path="/diario" element={<Diary />} />
 
         {/* Sequenza 1 */}
         {fase === "countdown1" && (
@@ -83,7 +84,19 @@ function App() {
             element={
               <CountDown
                 endDateTime={endDateTime}
-                quote="Finalmente sono riuscito ad aprire lo scrigno. Dentro trovo tutto il materiale che mio nonno aveva raccolto su Boggia. Le coordinate mi hanno portato in un vicolo vicino alla Bagnera, il vecchio quartiere di Boggia. Non c’è quasi niente lì, tranne una lastra di metallo nascosta sotto un mattone, con inciso il numero 12. Non so cosa significhi, ma mentre ero lì... quel vento. Di nuovo. Più freddo. Più... presente"
+                quote="Finalmente sono riuscito ad aprire lo scrigno. Dentro trovo tutto il materiale che mio nonno aveva raccolto su Boggia. Tra i documenti, vedo qualcosa di inquietante: una lettera manoscritta, firmata da una donna di nome Elena, datata pochi giorni prima della sua misteriosa scomparsa. Elena... Questo nome mi suona familiare. Continuando a cercare, trovo una mappa: “I luoghi di Boggia"
+              />
+            }
+          />
+        )}
+        {fase === "countdown3" && (
+          <Route
+            path="/"
+            element={
+              <CountDown
+                endDateTime={endDateTime}
+                quote="Sono arrivato al terzo luogo. Le mie mani tremano mentre mi avvicino al sottopasso. Le storie di mio nonno mi tornano in mente: l’ultima volta che quella donna, Elena, è stata vista è stata qui, durante una sera tempestosa.
+Una fitta mi colpisce allo stomaco. Capisco che mio nonno sapeva tutto, ma ha scelto di tenermi lontano dalla verità. "
               />
             }
           />

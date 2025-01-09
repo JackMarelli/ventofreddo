@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router";
 import MapBox from "../../components/MapBox/MapBox";
 import CityFog from "../../components/CityFog/CityFog";
 import BaseLayout from "../../layouts/BaseLayout/BaseLayout";
@@ -9,8 +10,10 @@ import ApiManager from "../../api/ApiManager/ApiManager";
 import { log } from "three/webgpu";
 
 const Map = () => {
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
   const inputBoxRef = useRef(null);
+  const croppedBorderRef = useRef(null);
   const api = new ApiManager();
 
   const handleInputChange = (e) => {
@@ -33,18 +36,18 @@ const Map = () => {
           if (response.data?.message) {
             console.log("CORRETTO");
             e.target.classList.add("!text-green-500");
-            inputBoxRef.current.classList.add("!bg-green-500");
+            croppedBorderRef.current.classList.add("!bg-green-500");
             setTimeout(() => {
-              inputBoxRef.current.classList.remove("!bg-green-500");
+              croppedBorderRef.current.classList.remove("!bg-green-500");
               e.target.classList.remove("!text-green-500");
               setInputValue("");
             }, 500);
           } else {
             console.log("ERRATO");
             e.target.classList.add("!text-red-500");
-            inputBoxRef.current.classList.add("!bg-red-500");
+            croppedBorderRef.current.classList.add("!bg-red-500");
             setTimeout(() => {
-              inputBoxRef.current.classList.remove("!bg-red-500");
+              croppedBorderRef.current.classList.remove("!bg-red-500");
               e.target.classList.remove("!text-red-500");
               setInputValue("");
             }, 500);
@@ -60,8 +63,11 @@ const Map = () => {
         <div className="w-screen h-screen relative overflow-hidden">
           <MapBox className="absolute h-screen start-0 end-0" />
           <div className="absolute top-0 bottom-0 start-0 end-0 overflow-auto flex flex-col gap-x-2 px-4 py-8 bg-transparent pointer-events-none">
-            <div className="my-crop w-full relative bg-white h-16 pointer-events-auto">
-            <div className="my-crop font-mono bg-bg absolute top-1/2 -translate-y-1/2 start-1/2 -translate-x-1/2 w-[calc(100%-3px)] h-[calc(100%-3px)] flex px-4 z-10 select-none">
+            <div
+              ref={croppedBorderRef}
+              className="my-crop w-full relative bg-white h-16 pointer-events-auto"
+            >
+              <div className="my-crop font-mono bg-bg absolute top-1/2 -translate-y-1/2 start-1/2 -translate-x-1/2 w-[calc(100%-3px)] h-[calc(100%-3px)] flex px-4 z-10 select-none">
                 <input
                   ref={inputBoxRef}
                   className="text-xl text-start w-full bg-bg placeholder:text-gray-400 select-none"
@@ -80,18 +86,10 @@ const Map = () => {
             <div className="absolute bottom-4 start-4 end-4">
               <div className="my-crop w-full relative bg-white h-48 pointer-events-auto">
                 <div className="my-crop bg-bg absolute top-1/2 -translate-y-1/2 start-1/2 -translate-x-1/2 w-[calc(100%-3px)] h-[calc(100%-3px)] overflow-scroll p-4">
-                  Ho trovato una fotocopia di un giornale vecchissimo del 1862,
-                  l’anno in cui hanno impiccato il temuto serial killer Antonio
-                  Boggia. Come ci è finita lì? Strano, no? <br />
-                  Inizio a leggere un articolo e mi viene in mente di avere già
-                  sentito questo nome: forse nelle vecchie storie di nonno?
-                  Torno subito a casa e inizio a cercare nella scatola che mi
-                  mostrava da piccolo... <br />
-                  Finalmente la trovo. Sblocco la chiusura rivelando un vecchio
-                  album di famiglia, oggetti arruginiti e uno scrigno chiuso da
-                  un lucchetto. Guardando le foto mi tolgo ogni dubbio: era
-                  parte della mia famiglia! <br /> Ora voglio aprire questo
-                  scrigno.
+                  Il tempo stringe. Un brivido mi attraversa: sento di nuovo
+                  quel vento, ma stavolta sembra portare con sé un sussurro di
+                  avvertimento. Se riuscissi a identificare un terzo punto tra
+                  questi due luoghi...
                 </div>
               </div>
               <div className="w-full flex grow justify-between items-end mt-8">
@@ -109,7 +107,10 @@ const Map = () => {
         <div className="w-screen h-screen flex">
           <div className="w-1/2 overflow-auto flex flex-col gap-x-2 gap-x-4 px-8 my-4">
             <SectionHeader content="Sii Intelligente" />
-            <div className="my-crop w-full relative bg-white h-16 pointer-events-auto">
+            <div
+              ref={croppedBorderRef}
+              className="my-crop w-full relative bg-white h-16 pointer-events-auto"
+            >
               <div className="my-crop font-mono bg-bg absolute top-1/2 -translate-y-1/2 start-1/2 -translate-x-1/2 w-[calc(100%-3px)] h-[calc(100%-3px)] flex px-4 z-10 select-none">
                 <input
                   ref={inputBoxRef}
@@ -128,23 +129,10 @@ const Map = () => {
             </div>
             <SectionHeader content="Nota" />
             <TextScramble>
-              Ho trovato una fotocopia di un giornale vecchissimo del 1862,
-              l’anno in cui hanno impiccato il temuto serial killer Antonio
-              Boggia. Come ci è finita lì? Strano, no?
-            </TextScramble>
-            <div className="mb-4"></div>
-            <TextScramble>
-              Inizio a leggere un articolo e mi viene in mente di avere già
-              sentito questo nome: forse nelle vecchie storie di nonno? Torno
-              subito a casa e inizio a cercare nella scatola che mi mostrava da
-              piccolo...
-            </TextScramble>
-            <div className="mb-4"></div>
-            <TextScramble>
-              Finalmente la trovo. Sblocco la chiusura rivelando un vecchio
-              album di famiglia, oggetti arruginiti e uno scrigno chiuso da un
-              lucchetto. Guardando le foto mi tolgo ogni dubbio: era parte della
-              mia famiglia!
+              Il tempo stringe. Un brivido mi attraversa: sento di nuovo quel
+              vento, ma stavolta sembra portare con sé un sussurro di
+              avvertimento. Se riuscissi a identificare un terzo punto tra
+              questi due luoghi...
             </TextScramble>
             <div className="mb-4"></div>
             <img
@@ -152,12 +140,14 @@ const Map = () => {
               src="assets/images/paper.png"
               alt=""
             />
-            <TextScramble>Ora voglio aprire questo scrigno.</TextScramble>
             <div className="w-full flex grow justify-between items-end mb-8">
               <span className="text-xs text-secondary uppercase">
                 / Niente sarà più come prima.
               </span>
-              <span className="text-xs text-secondary uppercase">
+              <span
+                onClick={() => navigate("/diario")}
+                className="text-xs text-secondary uppercase cursor-pointer"
+              >
                 / Diario.
               </span>
             </div>

@@ -36,7 +36,7 @@ export default function Diary() {
           <div>
               {notes &&
                 notes.map((note, index) => (
-                  <div key={index}>
+                  <div className="mt-8" key={index}>
                     <SectionHeader  content={namePhase[index]} id={note.pk}  />
                     <TextScramble>
                       {note.description && note.description}
