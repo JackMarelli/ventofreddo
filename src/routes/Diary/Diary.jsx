@@ -50,37 +50,33 @@ export default function Diary() {
 
         </GridLayout>
       ) : (
-        <GridLayout>
-          <div className=" absolute bottom-0 mb-9 w-full flex justify-between mt-8">
+        <GridLayout className={""}>
+          <div className=" fixed bottom-0 mb-9 w-full flex justify-between mt-8">
               <span className="text-xs text-secondary uppercase">
                 / Niente sarà più come prima.
               </span>
 
             </div>
-          <div className="col-span-6 flex flex-col h-full sticky top-8 justify-between" >
-            <div>
+          <div className="fixed col-span-6 flex flex-col h-full  top-8 justify-start" >
               {notes &&
                 notes.map((note, index) => (
                   <SlashFitTag key={index} content={namePhase[index]}  id={note.pk} />
                 ))
               }
-            </div>
-            
           </div>
-          <div className="col-span-6 flex flex-col text-md h-fit mx-4 overflow-auto">
-            <div>
+          <div className="col-start-7 col-span-6 flex flex-col text-md h-fit mx-4 overflow-auto">
+       
               {notes &&
                 notes.map((note, index) => (
-                  <div key={index}>
+                  <section key={index} id={note.pk}>
                     <SectionHeader  content={namePhase[index]} id={note.pk}  />
                     <TextScramble>
                       {note.description && note.description}
                     </TextScramble>
-                  </div>
+                  </section>
                 ))
               }
-            </div>
-
+      
 
             <TextScramble>
               Ho trovato una fotocopia di un giornale vecchissimo del 1862,
