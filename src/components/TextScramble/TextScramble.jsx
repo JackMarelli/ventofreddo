@@ -60,7 +60,7 @@ const TextScramble = ({ children, onEnd }) => {
   }, [children]);
 
   const scrambleCharacter = (index, finalChar) => {
-    const randomTime = Math.random() * (500 - 50) + 50;
+    const randomTime = Math.random() * (300 - 50) + 50;
 
     // Determine whether to display an SVG or a random character
     const showSVG = Math.random() < svgChance;

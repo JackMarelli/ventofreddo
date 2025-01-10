@@ -34,9 +34,8 @@ function App() {
       });
   }, []);
 
-  // Fetch countdown details when `fase` changes
   useEffect(() => {
-    if (fase === "countdown1" || fase === "countdown2" || fase == "countdown3") {
+    if (fase === "countdown1" || fase === "countdown2" || fase === "countdown3") {
       api
         .get(`countdown`, {})
         .then((response) => {

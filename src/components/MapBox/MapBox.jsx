@@ -10,10 +10,10 @@ const MapBox = ({ className }) => {
   const markerDivRef = useRef(null);
   const markerRef = useRef(null);
 
-const coordinates = [
-    [9.170707, 45.473060],
+  const coordinates = [
+    [9.170707, 45.47306],
     [9.170898, 45.475605],
-    [9.172230, 45.475411],
+    [9.17223, 45.475411],
     [9.171762, 45.477228],
     [9.173368, 45.477115],
     [9.173067, 45.475512],
@@ -25,12 +25,12 @@ const coordinates = [
     [9.176233, 45.476276],
     [9.175421, 45.475366],
     [9.176065, 45.473416],
-    [9.175326, 45.471970],
+    [9.175326, 45.47197],
     [9.177567, 45.471872],
     [9.177445, 45.473291],
     [9.177207, 45.474417],
     [9.178767, 45.474417],
-    [9.178164, 45.476160],
+    [9.178164, 45.47616],
     [9.180825, 45.475769],
     [9.181121, 45.473756],
     [9.182001, 45.473383],
@@ -39,7 +39,7 @@ const coordinates = [
     [9.182521, 45.474993],
     [9.183036797031583, 45.474417],
     [9.183636937586304, 45.474417],
-    [9.183560, 45.473673],
+    [9.18356, 45.473673],
     [9.184188, 45.474417],
     [9.185232, 45.474417],
     [9.1846622, 45.4752179],
@@ -122,7 +122,7 @@ const coordinates = [
     [9.217237762468494, 45.47362903303672],
 
     [9.218718341719988, 45.475878503194416],
-    
+
     [9.217237762468494, 45.47362903303672],
     [9.216846159911196, 45.47687531329604],
     [9.216116595493183, 45.474417],
@@ -203,7 +203,7 @@ const coordinates = [
     [9.1846622, 45.4752179],
     [9.185232, 45.474417],
     [9.184188, 45.474417],
-    [9.183560, 45.473673],
+    [9.18356, 45.473673],
     [9.183636937586304, 45.474417],
     [9.183036797031583, 45.474417],
     [9.182521, 45.474993],
@@ -212,12 +212,12 @@ const coordinates = [
     [9.182001, 45.473383],
     [9.181121, 45.473756],
     [9.180825, 45.475769],
-    [9.178164, 45.476160],
+    [9.178164, 45.47616],
     [9.178767, 45.474417],
     [9.177207, 45.474417],
     [9.177445, 45.473291],
     [9.177567, 45.471872],
-    [9.175326, 45.471970],
+    [9.175326, 45.47197],
     [9.176065, 45.473416],
     [9.175421, 45.475366],
     [9.176233, 45.476276],
@@ -229,11 +229,10 @@ const coordinates = [
     [9.173067, 45.475512],
     [9.173368, 45.477115],
     [9.171762, 45.477228],
-    [9.172230, 45.475411],
+    [9.17223, 45.475411],
     [9.170898, 45.475605],
-    [9.170707, 45.473060]
-]
-
+    [9.170707, 45.47306],
+  ];
 
   const totalDuration = 810000;
 
@@ -254,12 +253,12 @@ const coordinates = [
       map.current.touchZoomRotate.disableRotation();
 
       const geojson = {
-        type: 'FeatureCollection',
+        type: "FeatureCollection",
         features: [
           {
-            type: 'Feature',
+            type: "Feature",
             geometry: {
-              type: 'LineString',
+              type: "LineString",
               coordinates: [
                 [-9.090313, 45.474417],
                 [100.090313, 45.474417],
@@ -270,12 +269,12 @@ const coordinates = [
       };
 
       map.current.on("load", () => {
-        map.current.addSource('line', { type: 'geojson', data: geojson });
+        map.current.addSource("line", { type: "geojson", data: geojson });
         map.current.addLayer({
-          type: 'line',
-          source: 'line',
-          id: 'horizontal-line',
-          paint: { 'line-color': '#8D8D8D', 'line-width': 4 },
+          type: "line",
+          source: "line",
+          id: "horizontal-line",
+          paint: { "line-color": "#8D8D8D", "line-width": 4 },
         });
         map.current.addSource("trail", {
           type: "geojson",
@@ -316,6 +315,7 @@ const coordinates = [
         ];
 
         const animateMarker = (timestamp) => {
+          if (!mapContainer.current) return;
           const progress = (timestamp % totalDuration) / totalDuration;
           const segmentLength = 1 / (coordinates.length - 1);
           const adjustedProgress = direction === 1 ? progress : 1 - progress;
@@ -333,12 +333,12 @@ const coordinates = [
           if (
             trailCoordinates.length === 0 ||
             trailCoordinates[trailCoordinates.length - 1][0] !==
-            interpolatedPosition[0] ||
+              interpolatedPosition[0] ||
             trailCoordinates[trailCoordinates.length - 1][1] !==
-            interpolatedPosition[1]
+              interpolatedPosition[1]
           ) {
             trailCoordinates.push(interpolatedPosition);
-           
+
             map.current.getSource("trail").setData({
               type: "FeatureCollection",
               features: [
@@ -363,7 +363,6 @@ const coordinates = [
         };
 
         setTimeout(requestAnimationFrame(animateMarker), 2000);
-        
       });
     }
 
@@ -386,4 +385,4 @@ const coordinates = [
   );
 };
 
-export default MapBox;
+export default MapBox;
