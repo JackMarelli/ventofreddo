@@ -71,7 +71,7 @@ const Map = () => {
   return (
     <BaseLayout>
       {window.innerWidth < 768 ? (
-        <div className="w-screen h-full relative overflow-hidden">
+        <div className="w-screen h-[100dvh] relative overflow-hidden">
           <div className="z-50 absolute top-0 bottom-0 start-0 end-0 overflow-auto flex flex-col gap-x-2 px-4 py-8 bg-transparent pointer-events-none">
             <div className="col-span-full md:col-span-6 w-full relative mb-8 select-none z-50">
               <input
