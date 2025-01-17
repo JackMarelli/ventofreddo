@@ -134,11 +134,11 @@ const Map = () => {
               questi due luoghi...
             </TextScramble>
             <div className="mb-4"></div>
-            <img
+            {/* <img
               className="w-full my-5 h-0 !transition !duration-500 !delay-100 !ease-out"
               src="assets/images/paper.png"
               alt=""
-            />
+            /> */}
             <div className="w-full flex grow justify-between items-end mb-8">
               <span className="text-xs text-secondary uppercase">
                 / Niente sarà più come prima.

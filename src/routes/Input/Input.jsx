@@ -26,7 +26,7 @@ export default function Input() {
       .get(`get-photos`, {})
       .then((response) => {
         console.log(response);
-        if ((response.data.message = "Nessuna foto disponibile")) {
+        if (response.data.message === "Nessuna foto disponibile") {
           setCanvasIamges([]);
         } else {
           setCanvasIamges(response?.data?.photos);
@@ -39,7 +39,7 @@ export default function Input() {
       .get(`get-codes`, {})
       .then((response) => {
         console.log(response.data);
-        if ((response.data.message = "Nessun codice disponibile")) {
+        if (response.data.message === "Nessun codice disponibile") {
           setCorrectCodes([]);
         } else {
           setCorrectCodes(response?.data?.codes);
@@ -226,7 +226,7 @@ export default function Input() {
           <img
             ref={imageRef}
             className="w-full my-5 h-0 !transition !duration-500 !delay-100 !ease-out"
-            src="assets/images/paper.png"
+            src="https://ventofreddo-foto.s3.eu-north-1.amazonaws.com/foto_nota2.png"
             alt=""
           />
         </GridLayout>
@@ -258,7 +258,7 @@ export default function Input() {
             <img
               ref={imageRef}
               className="w-full my-5 h-0 !transition !duration-500 !delay-100 !ease-out"
-              src="assets/images/paper.png"
+              src="https://ventofreddo-foto.s3.eu-north-1.amazonaws.com/foto_nota2.png"
               alt=""
             />
             <div className="mb-4"></div>

@@ -5,6 +5,7 @@ import Map from "./routes/Map/Map.jsx";
 import { useState, useEffect } from "react";
 import ApiManager from "./api/ApiManager/ApiManager.js";
 import Diary from "./routes/Diary/Diary.jsx";
+import Unlock from "./routes/Unlock/Unlock.jsx";
 
 function App() {
   const [fase, setFase] = useState("map");
@@ -26,8 +27,8 @@ function App() {
       .get(`phase`, {})
       .then((response) => {
         console.log("phase:", response);
-        // setFase(FASI[response.data?.phase] || "countdown1");
-        setFase("map");
+        setFase(FASI[response.data?.phase] || "countdown1");
+        // setFase("input")
       })
       .catch((error) => {
         console.error("Error fetching phase:", error);
@@ -60,6 +61,7 @@ function App() {
       <Routes>
 
         <Route path="/diario" element={<Diary />} />
+        <Route path="/unlock" element={<Unlock />} />
 
         {/* Sequenza 1 */}
         {fase === "countdown1" && (
@@ -74,7 +76,6 @@ function App() {
           />
         )}
         {fase === "input" && <Route path="/" element={<Input />} />}
-
         {/* Sequenza 2 */}
         {fase === "map" && <Route path="/" element={<Map />} />}
         {fase === "countdown2" && (
