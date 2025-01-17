@@ -26,8 +26,7 @@ function App() {
       .get(`phase`, {})
       .then((response) => {
         console.log("phase:", response);
-        //setFase(FASI[response.data?.phase] || "countdown1");
-        setFase("map");
+        setFase(FASI[response.data?.phase] || "countdown1");
       })
       .catch((error) => {
         console.error("Error fetching phase:", error);
