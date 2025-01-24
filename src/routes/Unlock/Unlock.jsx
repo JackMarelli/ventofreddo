@@ -7,20 +7,21 @@ import { useNavigate } from "react-router-dom";
 export default function Unlock() {
   const api = new ApiManager();
   const navigate = useNavigate();
-  const [message, setMessage] = useState(["Indovina tutti i codici prima"]);
+  const [message, setMessage] = useState(["X"]);
 
   useEffect(() => {
     api
       .post(`unlock`)
       .then((response) => {
         console.log(response);
-        if (response.data.phase === 3) {
+        if (response.data.phase && response.data.phase === 3) {
           setMessage("Una nuova fase è stata sbloccata");
           navigate("/");
         }
       })
       .catch((error) => {
         console.error(error);
+        setMessage("Indovina tutti i codici prima");
       });
   }, []);
 

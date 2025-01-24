@@ -88,7 +88,7 @@ const TextScramble = ({ children, onEnd }) => {
     }, randomTime);
   };
 
-  return <div className="w-full h-fit">{characters}</div>;
+  return <div className="w-full col-span-full h-fit">{characters}</div>;
 };
 
 export default TextScramble;

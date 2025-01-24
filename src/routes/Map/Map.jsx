@@ -38,7 +38,7 @@ const Map = () => {
 
 
         api
-          .post("check-code", { code: value })
+          .post("check-longitude", { longitude: value })
           .then((response) => {
             if (response.data?.message) {
               e.target.classList.add("!text-green-500");

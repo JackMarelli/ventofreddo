@@ -65,7 +65,7 @@ const CountDown = ({ endDateTime, quote }) => {
       <GridLayout>
         <SectionHeader content="Preparati" />
         {/* Display the countdown */}
-        <div className="col-span-full text-6xl h-fit mb-8">
+        <div className="col-span-full text-4xl h-fit mb-8">
           {timeLeft.days}:{timeLeft.hours}:{timeLeft.minutes}:{timeLeft.seconds}
         </div>
         <SectionHeader content="Nota" />

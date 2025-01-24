@@ -9,7 +9,7 @@ import Unlock from "./routes/Unlock/Unlock.jsx";
 import Reg from "./routes/Reg/Reg.jsx";
 
 function App() {
-  const [fase, setFase] = useState("map");
+  const [fase, setFase] = useState("");
   const [isQrComplete, setQrComplete] = useState(false);
   const [endDateTime, setEndDateTime] = useState(""); // State to store countdown end time
   const api = new ApiManager();
@@ -86,7 +86,7 @@ function App() {
             element={
               <CountDown
                 endDateTime={endDateTime}
-                quote="Finalmente sono riuscito ad aprire lo scrigno. Dentro trovo tutto il materiale che mio nonno aveva raccolto su Boggia. Tra i documenti, vedo qualcosa di inquietante: una lettera manoscritta, firmata da una donna di nome Elena, datata pochi giorni prima della sua misteriosa scomparsa. Elena... Questo nome mi suona familiare. Continuando a cercare, trovo una mappa: “I luoghi di Boggia"
+                quote='Finalmente sono riuscito ad aprire lo scrigno. Dentro trovo tutto il materiale che mio nonno aveva raccolto su Boggia. Tra i documenti, vedo qualcosa di inquietante: una lettera manoscritta, firmata da una donna di nome Elena, datata pochi giorni prima della sua misteriosa scomparsa. Elena... Questo nome mi suona familiare. Continuando a cercare, trovo una mappa: “I luoghi di Boggia"'
               />
             }
           />
