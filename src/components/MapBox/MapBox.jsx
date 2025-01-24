@@ -297,7 +297,7 @@ const MapBox = ({ className }) => {
           type: "line",
           source: "trail",
           layout: { "line-cap": "round", "line-join": "round" },
-          paint: { "line-color": "#FF0000", "line-width": 3 },
+          paint: { "line-color": "#f1f1f1", "line-width": 3 },
         });
 
         markerRef.current = new mapboxgl.Marker({

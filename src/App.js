@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import ApiManager from "./api/ApiManager/ApiManager.js";
 import Diary from "./routes/Diary/Diary.jsx";
 import Unlock from "./routes/Unlock/Unlock.jsx";
+import Reg from "./routes/Reg/Reg.jsx";
 
 function App() {
   const [fase, setFase] = useState("map");
@@ -27,7 +28,7 @@ function App() {
       .get(`phase`, {})
       .then((response) => {
         console.log("phase:", response);
-        setFase(FASI[response.data?.phase] || "countdown1");
+        if (response.data.phase) setFase(FASI[response.data?.phase] || "countdown1");
         // setFase("input")
       })
       .catch((error) => {
@@ -62,6 +63,7 @@ function App() {
 
         <Route path="/diario" element={<Diary />} />
         <Route path="/unlock" element={<Unlock />} />
+        <Route path="/reg" element={<Reg />} />
 
         {/* Sequenza 1 */}
         {fase === "countdown1" && (
