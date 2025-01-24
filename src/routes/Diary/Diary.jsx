@@ -26,7 +26,6 @@ export default function Diary() {
     api
       .get(`note`, {})
       .then((response) => {
-        console.log(response);
         setNotes(response?.data?.notes);
       })
       .catch((error) => {

@@ -25,7 +25,6 @@ export default function Input() {
     api
       .get(`get-photos`, {})
       .then((response) => {
-        console.log(response);
         if (response.data.message === "Nessuna foto disponibile") {
           setCanvasIamges([]);
         } else {
@@ -38,7 +37,6 @@ export default function Input() {
     api
       .get(`get-codes`, {})
       .then((response) => {
-        console.log(response.data);
         if (response.data.message === "Nessun codice disponibile") {
           setCorrectCodes([]);
         } else {

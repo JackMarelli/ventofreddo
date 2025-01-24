@@ -27,7 +27,6 @@ function App() {
     api
       .get(`phase`, {})
       .then((response) => {
-        console.log("phase:", response);
         if (response.data.phase) setFase(FASI[response.data?.phase] || "countdown1");
         // setFase("input")
       })
@@ -41,8 +40,6 @@ function App() {
       api
         .get(`countdown`, {})
         .then((response) => {
-          console.log("countdown:", response);
-
           const { date, time } = response.data;
           if (date && time) {
             const combinedDateTime = `${date}T${time}`; // ISO format

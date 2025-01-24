@@ -13,7 +13,6 @@ export default function Unlock() {
     api
       .post(`unlock`)
       .then((response) => {
-        console.log(response);
         if (response.data.phase && response.data.phase === 3) {
           setMessage("Una nuova fase è stata sbloccata");
           navigate("/");
